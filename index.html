@@ -1,0 +1,672 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Resolve Plugin Library</title>
+<style>
+  :root{
+    --bg:#0a0a12;
+    --bg-soft:#11111c;
+    --card:#13131f;
+    --card-border:#23233a;
+    --teal:#2dd9a8;
+    --teal-bright:#3cf0c0;
+    --purple:#6c5ce7;
+    --pink:#e84393;
+    --text:#e8e8f0;
+    --text-dim:#9999ad;
+    --text-faint:#6b6b80;
+    --danger:#ff5470;
+  }
+
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;}
+  body{
+    background:
+      radial-gradient(ellipse 800px 500px at 15% 0%, rgba(108,92,231,0.12), transparent),
+      radial-gradient(ellipse 800px 500px at 85% 20%, rgba(45,217,168,0.10), transparent),
+      var(--bg);
+    color:var(--text);
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    min-height:100vh;
+  }
+
+  .wrap{max-width:1600px;margin:0 auto;padding:40px 48px 100px;}
+
+  /* Header */
+  header{margin-bottom:32px;}
+  .brand{
+    display:flex;align-items:center;gap:12px;
+    font-weight:800;font-size:32px;letter-spacing:-0.02em;margin-bottom:8px;
+  }
+  .brand .dot{width:13px;height:13px;border-radius:50%;background:linear-gradient(135deg,var(--teal),var(--purple));box-shadow:0 0 18px rgba(45,217,168,0.7);flex-shrink:0;}
+  .brand span.grad{
+    background:linear-gradient(90deg,var(--teal-bright),var(--purple),var(--pink),var(--purple),var(--teal-bright));
+    background-size:300% auto;
+    -webkit-background-clip:text;background-clip:text;color:transparent;
+    animation:gradShift 6s linear infinite;
+  }
+  @keyframes gradShift{
+    0%{background-position:0% 50%;}
+    100%{background-position:300% 50%;}
+  }
+  .tagline{color:var(--text-dim);font-size:15px;margin:0;line-height:1.5;}
+
+  /* Toolbar */
+  .toolbar{
+    background:rgba(255,255,255,0.02);
+    border:1px solid var(--card-border);
+    border-radius:18px;
+    padding:28px;
+    margin-bottom:36px;
+  }
+  .toolbar-row{
+    display:flex;flex-wrap:wrap;gap:14px;
+  }
+  .toolbar input, .toolbar select{
+    flex:1 1 220px;
+    background:rgba(255,255,255,0.03);
+    border:1px solid var(--card-border);
+    color:var(--text);
+    padding:15px 20px;
+    border-radius:999px;
+    font-size:15px;
+    outline:none;
+    transition:border-color .15s ease, background .15s ease;
+  }
+  .toolbar input::placeholder{color:var(--text-faint);}
+  .toolbar input:focus, .toolbar select:focus{
+    border-color:var(--teal);
+    background:rgba(45,217,168,0.05);
+  }
+  .toolbar select{cursor:pointer;}
+  .fav-row{
+    display:flex;align-items:center;justify-content:center;gap:10px;
+    margin-top:18px;font-size:15px;color:var(--text-dim);
+  }
+  .fav-row input[type=checkbox]{
+    width:19px;height:19px;accent-color:var(--purple);cursor:pointer;flex-shrink:0;
+  }
+  .fav-row label{cursor:pointer;display:flex;align-items:center;gap:8px;white-space:nowrap;}
+
+  /* Grid */
+  .grid{
+    display:grid;
+    grid-template-columns:repeat(2, 1fr);
+    gap:28px;
+  }
+  @media (max-width:700px){.grid{grid-template-columns:1fr;}}
+
+  .card{
+    background:var(--card);
+    border:1px solid var(--card-border);
+    border-radius:16px;
+    padding:40px 32px;
+    display:flex;
+    flex-direction:column;
+    transition:transform .15s ease, border-color .15s ease, box-shadow .15s ease;
+  }
+  .card:hover{
+    transform:translateY(-3px);
+    border-color:rgba(108,92,231,0.4);
+    box-shadow:0 12px 28px rgba(0,0,0,0.35);
+  }
+  .card h3{
+    margin:0 0 16px 0;
+    font-size:22px;
+    line-height:1.3;
+    font-weight:800;
+    background:linear-gradient(90deg,var(--purple),var(--pink),var(--teal-bright),var(--purple));
+    background-size:300% auto;
+    -webkit-background-clip:text;background-clip:text;color:transparent;
+    animation:gradShift 8s linear infinite;
+  }
+  .meta{font-size:15px;margin-bottom:8px;color:var(--text-dim);}
+  .meta b{color:var(--text);font-weight:700;}
+  .desc{font-size:15px;color:var(--text-dim);margin:12px 0 20px;line-height:1.55;flex-grow:1;}
+
+  /* Carousel */
+  .carousel{
+    position:relative;
+    width:100%;
+    aspect-ratio:16/9;
+    border-radius:12px;
+    overflow:hidden;
+    background:rgba(255,255,255,0.03);
+    border:1px solid var(--card-border);
+    margin:14px 0 8px;
+  }
+  .carousel-track{width:100%;height:100%;}
+  .carousel-slide{
+    width:100%;height:100%;
+    object-fit:cover;
+    display:block;
+  }
+  .carousel-arrow{
+    position:absolute;top:50%;transform:translateY(-50%);
+    width:34px;height:34px;border-radius:50%;
+    background:rgba(10,10,18,0.65);
+    border:1px solid rgba(255,255,255,0.15);
+    color:#fff;font-size:20px;line-height:1;
+    cursor:pointer;
+    display:flex;align-items:center;justify-content:center;
+    transition:background .15s ease;
+  }
+  .carousel-arrow:hover{background:rgba(108,92,231,0.7);}
+  .carousel-prev{left:10px;}
+  .carousel-next{right:10px;}
+  .carousel-dots{
+    position:absolute;bottom:10px;left:0;right:0;
+    display:flex;justify-content:center;gap:6px;
+  }
+  .dot-indicator{
+    width:7px;height:7px;border-radius:50%;
+    background:rgba(255,255,255,0.35);
+    transition:background .15s ease;
+  }
+  .dot-indicator.active{background:var(--teal-bright);}
+
+  .card-actions{display:flex;gap:10px;}
+  .btn{
+    border:none;border-radius:10px;padding:14px 18px;
+    font-size:15px;font-weight:700;cursor:pointer;
+    display:flex;align-items:center;justify-content:center;gap:8px;
+    transition:filter .15s ease, transform .1s ease;
+  }
+  .btn:active{transform:scale(0.97);}
+  .btn-view{
+    flex:1;
+    background:var(--teal-bright);
+    color:#04241a;
+  }
+  .btn-view:hover{filter:brightness(1.08);}
+  .btn-fav{
+    width:46px;flex-shrink:0;
+    background:rgba(108,92,231,0.25);
+    color:#cfc8ff;
+    border:1px solid rgba(108,92,231,0.4);
+  }
+  .btn-fav.active{background:var(--purple);color:#fff;}
+  .empty-state{
+    grid-column:1/-1;
+    text-align:center;
+    padding:60px 20px;
+    color:var(--text-faint);
+  }
+
+  /* Modal */
+  .modal-overlay{
+    position:fixed;inset:0;
+    background:rgba(5,5,10,0.78);
+    backdrop-filter:blur(4px);
+    display:flex;align-items:center;justify-content:center;
+    padding:20px;
+    z-index:1000;
+    opacity:0;pointer-events:none;
+    transition:opacity .18s ease;
+  }
+  .modal-overlay.show{opacity:1;pointer-events:auto;}
+  .modal{
+    background:#0d0d18;
+    border:1px solid var(--card-border);
+    border-radius:18px;
+    padding:34px;
+    max-width:620px;width:100%;
+    position:relative;
+    box-shadow:0 30px 80px rgba(0,0,0,0.6);
+    transform:translateY(10px) scale(0.98);
+    transition:transform .18s ease;
+  }
+  .modal-overlay.show .modal{transform:translateY(0) scale(1);}
+  .modal h2{
+    margin:0 0 16px 0;font-size:26px;font-weight:800;
+    background:linear-gradient(90deg,var(--teal-bright),var(--purple),var(--pink),var(--teal-bright));
+    background-size:300% auto;
+    -webkit-background-clip:text;background-clip:text;color:transparent;
+    animation:gradShift 8s linear infinite;
+    padding-right:40px;
+  }
+  .modal .meta{font-size:14px;color:var(--text);margin-bottom:14px;}
+  .modal .desc{color:var(--text-dim);font-size:14px;line-height:1.6;margin-bottom:22px;}
+  .modal-close{
+    position:absolute;top:24px;right:24px;
+    width:38px;height:38px;border-radius:50%;
+    background:var(--purple);color:#fff;border:none;
+    font-size:18px;cursor:pointer;
+    display:flex;align-items:center;justify-content:center;
+    transition:filter .15s ease;
+  }
+  .modal-close:hover{filter:brightness(1.15);}
+
+  .code-box{
+    background:rgba(255,255,255,0.03);
+    border:1px solid var(--card-border);
+    border-radius:10px;
+    padding:16px;
+    font-family:'SF Mono', Consolas, monospace;
+    font-size:13px;
+    color:#b8f5e0;
+    overflow-x:auto;
+    white-space:pre;
+    margin-bottom:16px;
+  }
+  .download-btn{
+    display:inline-flex;align-items:center;gap:8px;
+    background:var(--teal-bright);color:#04241a;
+    padding:13px 22px;border-radius:10px;
+    font-weight:700;font-size:14px;text-decoration:none;
+    margin-bottom:8px;
+  }
+  .download-btn:hover{filter:brightness(1.08);}
+
+  .copy-btn{
+    background:var(--teal-bright);color:#04241a;
+    border:none;border-radius:10px;
+    padding:14px 22px;font-weight:700;font-size:14px;
+    cursor:pointer;display:inline-flex;align-items:center;gap:8px;
+    margin-bottom:18px;
+  }
+  .copy-btn:hover{filter:brightness(1.08);}
+
+  .toast{
+    position:fixed;bottom:24px;left:50%;transform:translateX(-50%) translateY(10px);
+    background:var(--card);border:1px solid var(--card-border);
+    color:var(--text);padding:12px 22px;border-radius:999px;
+    font-size:14px;opacity:0;pointer-events:none;
+    transition:opacity .2s ease, transform .2s ease;
+    z-index:1100;
+  }
+  .toast.show{opacity:1;transform:translateX(-50%) translateY(0);}
+
+  .loading-row{grid-column:1/-1;text-align:center;color:var(--text-faint);padding:50px 0;}
+</style>
+</head>
+<body>
+
+<div class="wrap">
+  <header>
+    <div class="brand"><span class="dot"></span><span class="grad">Scriptify</span></div>
+    <p class="tagline">YOU WILL FIND THE BEST UNDETECTED WORKING SCRIPTS HERE</p>
+  </header>
+
+  <div class="toolbar">
+    <div class="toolbar-row">
+      <input id="searchInput" type="text" placeholder="Search for scripts (e.g., bloxfruits, jjs)">
+      <select id="categoryFilter"><option value="">All Categories</option></select>
+      <select id="sortSelect">
+        <option value="alpha">Alphabetical</option>
+        <option value="newest">Newest First</option>
+      </select>
+    </div>
+    <div class="fav-row">
+      <label><input type="checkbox" id="favOnly"> ❤ Favorites Only</label>
+    </div>
+  </div>
+
+  <div class="grid" id="grid">
+    <div class="loading-row">Loading plugins…</div>
+  </div>
+</div>
+
+<div class="modal-overlay" id="modalOverlay">
+  <div class="modal" id="modalContent"></div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+/* =========================================================
+   CONFIG — edit this one line to point at your published CSV
+   ========================================================= */
+const SHEET_CSV_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vSs3X9rA31AbPZyBdexF7T-rZWpUevAJWyX3RpMEGLUkZ6rkZBDA61kRHuFZYa-RTBiNzPohSElJNd9/pub?output=csv";
+
+/* =========================================================
+   Sample fallback data — shown only if the sheet fails to load,
+   so you can see the layout. Replace by editing your sheet.
+   ========================================================= */
+const FALLBACK_DATA = [
+  {
+    id: "sample-glow",
+    title: "Cinematic Glow Macro",
+    category: "Color & Light",
+    description: "A Fusion macro that adds a soft, filmic glow with adjustable threshold and falloff.",
+    locker_url: "https://example.com/locker/sample-glow",
+    content_type: "code",
+    code: "-- paste your macro code or setup string here in the sheet --",
+    download_url: "",
+    images: []
+  },
+  {
+    id: "sample-denoise",
+    title: "Quick Denoise Preset",
+    category: "Noise Reduction",
+    description: "A node preset tuned for low-light footage from common mirrorless cameras.",
+    locker_url: "https://example.com/locker/sample-denoise",
+    content_type: "download",
+    code: "",
+    download_url: "https://example.com/downloads/sample-denoise.zip",
+    images: []
+  }
+];
+
+/* =========================================================
+   State
+   ========================================================= */
+let allItems = [];
+let favorites = JSON.parse(localStorage.getItem('rpl_favorites') || '[]');
+
+function toggleFavorite(id){
+  if(favorites.includes(id)){
+    favorites = favorites.filter(f => f !== id);
+  } else {
+    favorites.push(id);
+  }
+  localStorage.setItem('rpl_favorites', JSON.stringify(favorites));
+}
+
+function showToast(msg){
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.classList.add('show');
+  setTimeout(()=>t.classList.remove('show'), 2200);
+}
+
+/* =========================================================
+   CSV parsing (handles quoted fields with commas)
+   ========================================================= */
+function parseCSV(text){
+  const rows = [];
+  let row = [], field = '', inQuotes = false;
+  for(let i=0;i<text.length;i++){
+    const c = text[i], next = text[i+1];
+    if(inQuotes){
+      if(c === '"' && next === '"'){ field += '"'; i++; }
+      else if(c === '"'){ inQuotes = false; }
+      else { field += c; }
+    } else {
+      if(c === '"'){ inQuotes = true; }
+      else if(c === ','){ row.push(field); field=''; }
+      else if(c === '\n'){ row.push(field); rows.push(row); row=[]; field=''; }
+      else if(c === '\r'){ /* skip */ }
+      else { field += c; }
+    }
+  }
+  if(field.length || row.length){ row.push(field); rows.push(row); }
+  if(!rows.length) return [];
+  const headers = rows[0].map(h => h.trim().toLowerCase().replace(/\s+/g,'_'));
+  return rows.slice(1).filter(r => r.length && r.some(c => c.trim() !== '')).map(r => {
+    const obj = {};
+    headers.forEach((h, idx) => obj[h] = (r[idx] || '').trim());
+    return obj;
+  });
+}
+
+/* =========================================================
+   Load data
+   ========================================================= */
+async function loadData(){
+  try{
+    const res = await fetch(SHEET_CSV_URL + (SHEET_CSV_URL.includes('?') ? '&' : '?') + 'cb=' + Date.now());
+    if(!res.ok) throw new Error('Sheet fetch failed');
+    const text = await res.text();
+    const rows = parseCSV(text);
+    if(!rows.length) throw new Error('Empty sheet');
+    allItems = rows.map(r => ({
+      id: r.id || slugify(r.title || Math.random().toString(36).slice(2)),
+      title: r.title || 'Untitled',
+      category: r.category || 'Uncategorized',
+      description: r.description || '',
+      locker_url: r.locker_url || r.lockerurl || '',
+      content_type: (r.content_type || r.contenttype || 'code').toLowerCase(),
+      code: r.code || '',
+      download_url: r.download_url || r.downloadurl || '',
+      images: (r.images || '').replace(/%7C/gi, '|').split('|').map(s => s.trim()).filter(Boolean)
+    }));
+  } catch(err){
+    console.warn('Falling back to sample data:', err);
+    allItems = FALLBACK_DATA;
+  }
+  populateCategoryFilter();
+  checkForUnlockReturn();
+  render();
+}
+
+function slugify(str){
+  return str.toLowerCase().trim().replace(/[^a-z0-9]+/g,'-').replace(/(^-|-$)/g,'');
+}
+
+function populateCategoryFilter(){
+  const sel = document.getElementById('categoryFilter');
+  const cats = [...new Set(allItems.map(i => i.category).filter(Boolean))].sort();
+  cats.forEach(c => {
+    const opt = document.createElement('option');
+    opt.value = c; opt.textContent = c;
+    sel.appendChild(opt);
+  });
+}
+
+/* =========================================================
+   Unlock-return detection
+   When Linkvertise/Lootlabs redirects back, it should hit:
+     https://yoursite.com/?unlock=THE_ID
+   This reads that param, cleans the URL, and opens that one
+   post's modal automatically. Nothing is stored — visiting
+   that URL is the only way the modal ever opens.
+   ========================================================= */
+function checkForUnlockReturn(){
+  const params = new URLSearchParams(window.location.search);
+  const unlockId = params.get('unlock');
+  if(unlockId){
+    const item = allItems.find(i => i.id === unlockId);
+    if(item){
+      // clean the URL so refreshing doesn't re-trigger anything odd
+      const cleanUrl = window.location.origin + window.location.pathname;
+      window.history.replaceState({}, '', cleanUrl);
+      setTimeout(() => openModal(item), 50);
+    }
+  }
+}
+
+/* =========================================================
+   Rendering
+   ========================================================= */
+function render(){
+  const grid = document.getElementById('grid');
+  const search = document.getElementById('searchInput').value.toLowerCase();
+  const cat = document.getElementById('categoryFilter').value;
+  const sort = document.getElementById('sortSelect').value;
+  const favOnly = document.getElementById('favOnly').checked;
+
+  let items = allItems.filter(i => {
+    if(favOnly && !favorites.includes(i.id)) return false;
+    if(cat && i.category !== cat) return false;
+    if(search){
+      const hay = (i.title + ' ' + i.description + ' ' + i.category).toLowerCase();
+      if(!hay.includes(search)) return false;
+    }
+    return true;
+  });
+
+  if(sort === 'alpha'){
+    items.sort((a,b) => a.title.localeCompare(b.title));
+  } else if(sort === 'newest'){
+    items.slice().reverse(); // sheet order assumed oldest->newest; newest = reverse
+    items = items.slice().reverse();
+  }
+
+  if(!items.length){
+    grid.innerHTML = '<div class="empty-state">No plugins match. Try clearing filters or search.</div>';
+    return;
+  }
+
+  grid.innerHTML = items.map(i => {
+    const isFav = favorites.includes(i.id);
+    return `
+      <div class="card">
+        <h3>${escapeHtml(i.title)}</h3>
+        ${renderCarousel(i)}
+        <div class="meta"><b>Category:</b> ${escapeHtml(i.category)}</div>
+        <div class="desc">${escapeHtml(i.description)}</div>
+        <div class="card-actions">
+          <button class="btn btn-view" onclick="handleViewClick('${i.id}')">🔒 Unlock</button>
+          <button class="btn btn-fav ${isFav ? 'active' : ''}" onclick="handleFavClick('${i.id}')">♥</button>
+        </div>
+      </div>
+    `;
+  }).join('');
+
+  observeCarousels();
+  startAutoplay();
+}
+
+function renderCarousel(item){
+  if(!item.images || !item.images.length) return '';
+  const slides = item.images.map((src, idx) =>
+    `<img src="${escapeHtml(src)}" class="carousel-slide" data-index="${idx}" style="display:${idx===0?'block':'none'}" alt="${escapeHtml(item.title)}" loading="lazy">`
+  ).join('');
+  const dots = item.images.length > 1
+    ? `<div class="carousel-dots">${item.images.map((_, idx) => `<span class="dot-indicator ${idx===0?'active':''}" data-index="${idx}"></span>`).join('')}</div>`
+    : '';
+  const arrows = item.images.length > 1 ? `
+    <button class="carousel-arrow carousel-prev" onclick="moveCarousel(this, -1)" aria-label="Previous image">‹</button>
+    <button class="carousel-arrow carousel-next" onclick="moveCarousel(this, 1)" aria-label="Next image">›</button>
+  ` : '';
+  return `
+    <div class="carousel" data-current="0">
+      <div class="carousel-track">${slides}</div>
+      ${arrows}
+      ${dots}
+    </div>
+  `;
+}
+
+function advanceCarousel(carousel, dir){
+  const slides = carousel.querySelectorAll('.carousel-slide');
+  const dots = carousel.querySelectorAll('.dot-indicator');
+  if(!slides.length) return;
+  let current = parseInt(carousel.dataset.current, 10) || 0;
+  slides[current].style.display = 'none';
+  if(dots[current]) dots[current].classList.remove('active');
+  current = (current + dir + slides.length) % slides.length;
+  slides[current].style.display = 'block';
+  if(dots[current]) dots[current].classList.add('active');
+  carousel.dataset.current = current;
+}
+
+function moveCarousel(btn, dir){
+  autoplayStopped = true; // any manual arrow click stops auto-cycling everywhere, for good
+  if(autoplayInterval){ clearInterval(autoplayInterval); autoplayInterval = null; }
+  const carousel = btn.closest('.carousel');
+  advanceCarousel(carousel, dir);
+}
+
+/* =========================================================
+   Auto-play: every visible multi-image carousel advances
+   every 4 seconds, until any arrow anywhere is clicked.
+   ========================================================= */
+let autoplayStopped = false;
+let autoplayInterval = null;
+const visibleCarousels = new Set();
+
+const carouselObserver = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if(entry.isIntersecting){
+      visibleCarousels.add(entry.target);
+    } else {
+      visibleCarousels.delete(entry.target);
+    }
+  });
+}, { threshold: 0.4 });
+
+function observeCarousels(){
+  if(autoplayStopped) return;
+  document.querySelectorAll('.carousel').forEach(c => {
+    if(c.querySelectorAll('.carousel-slide').length > 1){
+      carouselObserver.observe(c);
+    }
+  });
+}
+
+function startAutoplay(){
+  if(autoplayInterval || autoplayStopped) return;
+  autoplayInterval = setInterval(() => {
+    if(autoplayStopped){
+      clearInterval(autoplayInterval);
+      autoplayInterval = null;
+      return;
+    }
+    visibleCarousels.forEach(carousel => advanceCarousel(carousel, 1));
+  }, 3000);
+}
+
+function escapeHtml(str){
+  const d = document.createElement('div');
+  d.textContent = str || '';
+  return d.innerHTML;
+}
+
+function handleFavClick(id){
+  toggleFavorite(id);
+  render();
+}
+
+function handleViewClick(id){
+  const item = allItems.find(i => i.id === id);
+  if(!item) return;
+  if(!item.locker_url){
+    showToast('No link set for this item yet.');
+    return;
+  }
+  window.location.href = item.locker_url;
+}
+
+function openModal(item){
+  const overlay = document.getElementById('modalOverlay');
+  const modal = document.getElementById('modalContent');
+
+  let bodyHtml = '';
+  if(item.content_type === 'download' && item.download_url){
+    bodyHtml = `<a class="download-btn" href="${escapeHtml(item.download_url)}" target="_blank" rel="noopener">⬇ Download Plugin</a>`;
+  } else {
+    bodyHtml = `
+      <div class="code-box" id="codeBox-${item.id}">${escapeHtml(item.code)}</div>
+      <button class="copy-btn" onclick="copyCode('${item.id}')">📋 Copy Code</button>`;
+  }
+
+  modal.innerHTML = `
+    <button class="modal-close" onclick="closeModal()">✕</button>
+    <h2>${escapeHtml(item.title)}</h2>
+    <div class="meta">Category: ${escapeHtml(item.category)}</div>
+    <div class="desc">${escapeHtml(item.description)}</div>
+    ${bodyHtml}
+  `;
+  overlay.classList.add('show');
+}
+
+function copyCode(id){
+  const item = allItems.find(i => i.id === id);
+  if(!item) return;
+  navigator.clipboard.writeText(item.code).then(()=> showToast('Copied to clipboard!'));
+}
+
+function closeModal(){
+  document.getElementById('modalOverlay').classList.remove('show');
+}
+
+document.getElementById('modalOverlay').addEventListener('click', (e) => {
+  if(e.target.id === 'modalOverlay') closeModal();
+});
+document.addEventListener('keydown', (e) => {
+  if(e.key === 'Escape') closeModal();
+});
+
+document.getElementById('searchInput').addEventListener('input', render);
+document.getElementById('categoryFilter').addEventListener('change', render);
+document.getElementById('sortSelect').addEventListener('change', render);
+document.getElementById('favOnly').addEventListener('change', render);
+
+loadData();
+</script>
+</body>
+</html>
