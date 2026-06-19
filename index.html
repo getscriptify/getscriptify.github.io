@@ -373,7 +373,7 @@
 
 <script>
 const SHEET_CSV_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vSs3X9rA31AbPZyBdexF7T-rZWpUevAJWyX3RpMEGLUkZ6rkZBDA61kRHuFZYa-RTBiNzPohSElJNd9/pub?output=csv";
-const YOUTUBE_SUBSCRIBE_URL = "https://www.youtube.com/@Tix7778?sub_confirmation=1";
+const YOUTUBE_SUBSCRIBE_URL = "https://www.youtube.com/@Scriptify-HQ?sub_confirmation=1";
 
 function hasSubscribed(){
   return localStorage.getItem('ks_subscribed') === 'true';
@@ -485,7 +485,7 @@ async function loadData(){
     allItems = FALLBACK_DATA;
   }
   populateCategoryFilter();
-  checkForUnlockReturn();
+  checkForDirectLink();
   render();
 }
 
@@ -503,15 +503,34 @@ function populateCategoryFilter(){
   });
 }
 
-function checkForUnlockReturn(){
+// Handles two URL params:
+//  - ?script=ID      -> opens the key-system/unlock popup (or the unlocked modal
+//                        directly if the visitor already unlocked it) for that card.
+//  - ?unlock=ID       -> legacy param used when returning from Lootlabs/Linkvertise
+//                        after completing the key system; marks the script unlocked
+//                        and opens its modal.
+function checkForDirectLink(){
   const params = new URLSearchParams(window.location.search);
   const unlockId = params.get('unlock');
+  const scriptId = params.get('script');
+
   if(unlockId){
     const item = allItems.find(i => i.id === unlockId);
     if(item){
+      markScriptUnlocked(item.id);
       const cleanUrl = window.location.origin + window.location.pathname;
       window.history.replaceState({}, '', cleanUrl);
       setTimeout(() => openModal(item), 50);
+    }
+    return;
+  }
+
+  if(scriptId){
+    const item = allItems.find(i => i.id === scriptId);
+    if(item){
+      const cleanUrl = window.location.origin + window.location.pathname;
+      window.history.replaceState({}, '', cleanUrl);
+      setTimeout(() => handleViewClick(item.id), 50);
     }
   }
 }
@@ -696,18 +715,69 @@ function openKeySystem(item){
   overlay.classList.add('show');
 }
 
+const REQUIRED_AWAY_MS = 4000;
+let ksAwayStart = null;
+let ksAwayHandler = null;
+
 function ksDoSubscribe(itemId){
   const btn = document.getElementById('ksSubBtn');
   btn.disabled = true;
-  btn.textContent = 'Waiting...';
+  btn.textContent = 'Waiting for you to subscribe…';
   window.open(YOUTUBE_SUBSCRIBE_URL, '_blank');
-  setTimeout(() => {
-    markSubscribed();
-    const step1 = document.getElementById('ksStep1');
-    const step2 = document.getElementById('ksStep2');
-    if(step1) step1.style.display = 'none';
-    if(step2){ step2.style.opacity = '1'; step2.style.pointerEvents = 'auto'; }
-  }, 7000);
+
+  // Clean up any previous listener from an earlier attempt on this modal.
+  ksCleanupAwayTracking();
+  ksAwayStart = null;
+
+  ksAwayHandler = function(){
+    if(document.hidden){
+      // User left this tab (presumably to the YouTube tab that just opened).
+      ksAwayStart = Date.now();
+    } else {
+      // User came back to this tab.
+      if(ksAwayStart !== null){
+        const awayFor = Date.now() - ksAwayStart;
+        if(awayFor >= REQUIRED_AWAY_MS){
+          ksUnlockStep1(itemId);
+          return;
+        } else {
+          // Came back too quickly — didn't actually stay on YouTube long enough.
+          ksAwayStart = null;
+          if(btn){
+            btn.disabled = false;
+            btn.textContent = 'Subscribe on YouTube';
+          }
+          showToast("Didn't see you on YouTube long enough — try again and stay a moment before returning.");
+        }
+      }
+    }
+  };
+
+  document.addEventListener('visibilitychange', ksAwayHandler);
+
+  // Fallback in case the browser fires blur/focus instead of (or alongside) visibilitychange.
+  window.addEventListener('blur', ksAwayHandler);
+  window.addEventListener('focus', ksAwayHandler);
+}
+
+function ksUnlockStep1(itemId){
+  ksCleanupAwayTracking();
+  markSubscribed();
+  const step1 = document.getElementById('ksStep1');
+  const step2 = document.getElementById('ksStep2');
+  if(step1) step1.style.display = 'none';
+  if(step2){ step2.style.opacity = '1'; step2.style.pointerEvents = 'auto'; }
+  showToast('Thanks for subscribing!');
+}
+
+function ksCleanupAwayTracking(){
+  if(ksAwayHandler){
+    document.removeEventListener('visibilitychange', ksAwayHandler);
+    window.removeEventListener('blur', ksAwayHandler);
+    window.removeEventListener('focus', ksAwayHandler);
+    ksAwayHandler = null;
+  }
+  ksAwayStart = null;
 }
 
 function ksGoUnlock(itemId, method){
@@ -750,6 +820,7 @@ function copyCode(id){
 
 function closeModal(){
   document.getElementById('modalOverlay').classList.remove('show');
+  ksCleanupAwayTracking();
 }
 
 document.getElementById('modalOverlay').addEventListener('click', (e) => {
