@@ -5,12 +5,14 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>SCRIPTIFY</title>
 
-<!-- Monetag: Push Notification -->
-<script src="https://5gvci.com/act/files/tag.min.js?z=11169169" data-cfasync="false" async></script>
-<!-- Monetag: Push Notification Banner -->
-<script>(function(s){s.dataset.zone='11169179',s.src='https://nap5k.com/tag.min.js'})([document.documentElement, document.body].filter(Boolean).pop().appendChild(document.createElement('script')))</script>
-<!-- Monetag: Vignette Banner -->
-<script>(function(s){s.dataset.zone='11169180',s.src='https://n6wxm.com/vignette.min.js'})([document.documentElement, document.body].filter(Boolean).pop().appendChild(document.createElement('script')))</script>
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-3GPML3YSND"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-3GPML3YSND');
+</script>
 
 <style>
   :root{
@@ -320,47 +322,18 @@
     </div>
   </div>
 
-  <!-- TOP AD: PC ONLY -->
-  <div class="desktop-only" style="margin: 0 auto 36px auto; width: 100%; max-width: 1600px;">
-    <script async="async" data-cfasync="false" src="https://pl29783786.effectivecpmnetwork.com/4317a7032fc1b3e0338592e355aa38a2/invoke.js"></script>
-    <div id="container-4317a7032fc1b3e0338592e355aa38a2"></div>
-  </div>
+  <!-- TOP AD: PC ONLY (Adsterra) -->
+  <div class="desktop-only" id="adTopSlot" style="margin: 0 auto 36px auto; width: 100%; max-width: 1600px;"></div>
 
   <div class="grid" id="grid">
     <div class="loading-row">Loading plugins…</div>
   </div>
 </div>
 
-<!-- BOTTOM AD: SPLIT PC / MOBILE -->
+<!-- BOTTOM AD: SPLIT PC / MOBILE (Adsterra) -->
 <div style="margin: 40px auto; width: 100%; display: flex; justify-content: center;">
-
-  <!-- DESKTOP sees the 728x90 Leaderboard -->
-  <div class="desktop-only">
-    <script>
-      atOptions = {
-        'key' : 'ae42c156c5fa20ea991807421ee0dbd0',
-        'format' : 'iframe',
-        'height' : 90,
-        'width' : 728,
-        'params' : {}
-      };
-    </script>
-    <script type="text/javascript" src="https://www.highperformanceformat.com/ae42c156c5fa20ea991807421ee0dbd0/invoke.js"></script>
-  </div>
-
-  <!-- MOBILE sees the 300x250 Square -->
-  <div class="mobile-only">
-    <script>
-      atOptions = {
-        'key' : 'fc815bc396eabf58d06976b30bbf739a',
-        'format' : 'iframe',
-        'height' : 250,
-        'width' : 300,
-        'params' : {}
-      };
-    </script>
-    <script type="text/javascript" src="https://www.highperformanceformat.com/fc815bc396eabf58d06976b30bbf739a/invoke.js"></script>
-  </div>
+  <div class="desktop-only" id="adBottomDesktop"></div>
+  <div class="mobile-only" id="adBottomMobile"></div>
 </div>
 
 <div class="modal-overlay" id="modalOverlay">
@@ -483,8 +456,11 @@ async function loadData(){
     allItems = FALLBACK_DATA;
   }
   populateCategoryFilter();
-  checkForDirectLink();
   render();
+  // Content is rendered and the direct-link modal (if any) is open before
+  // any ad network script is injected into the page.
+  checkForDirectLink();
+  loadAdsDeferred();
 }
 
 function slugify(str){
@@ -518,7 +494,8 @@ function checkForDirectLink(){
       markScriptUnlocked(item.id);
       const cleanUrl = window.location.origin + window.location.pathname;
       window.history.replaceState({}, '', cleanUrl);
-      setTimeout(() => openModal(item), 50);
+      trackEvent('unlock_completed', { script_id: item.id });
+      openModal(item);
     }
     return;
   }
@@ -528,9 +505,97 @@ function checkForDirectLink(){
     if(item){
       const cleanUrl = window.location.origin + window.location.pathname;
       window.history.replaceState({}, '', cleanUrl);
-      setTimeout(() => handleViewClick(item.id), 50);
+      trackEvent('direct_link_landing', { script_id: item.id });
+      handleViewClick(item.id);
     }
   }
+}
+
+// ---------------------------------------------------------------------------
+// Ad loading — deliberately deferred until AFTER content (and any direct-link
+// modal) has rendered, so visitors always see the script grid / popup first.
+// Adsterra loads before Monetag per provider priority.
+// ---------------------------------------------------------------------------
+function loadAdsDeferred(){
+  // Give the browser a beat to paint the grid/modal first.
+  setTimeout(() => {
+    loadAdsterra();
+    loadMonetag();
+  }, 150);
+}
+
+function loadAdsterra(){
+  // Top banner slot (desktop only)
+  const topSlot = document.getElementById('adTopSlot');
+  if(topSlot){
+    const s1 = document.createElement('script');
+    s1.async = true;
+    s1.dataset.cfasync = 'false';
+    s1.src = 'https://pl29783786.effectivecpmnetwork.com/4317a7032fc1b3e0338592e355aa38a2/invoke.js';
+    const containerDiv = document.createElement('div');
+    containerDiv.id = 'container-4317a7032fc1b3e0338592e355aa38a2';
+    topSlot.appendChild(containerDiv);
+    topSlot.appendChild(s1);
+  }
+
+  // Bottom desktop leaderboard (728x90)
+  const bottomDesktop = document.getElementById('adBottomDesktop');
+  if(bottomDesktop){
+    const cfgScript = document.createElement('script');
+    cfgScript.textContent = `
+      atOptions = {
+        'key' : 'ae42c156c5fa20ea991807421ee0dbd0',
+        'format' : 'iframe',
+        'height' : 90,
+        'width' : 728,
+        'params' : {}
+      };
+    `;
+    const loaderScript = document.createElement('script');
+    loaderScript.src = 'https://www.highperformanceformat.com/ae42c156c5fa20ea991807421ee0dbd0/invoke.js';
+    bottomDesktop.appendChild(cfgScript);
+    bottomDesktop.appendChild(loaderScript);
+  }
+
+  // Bottom mobile square (300x250)
+  const bottomMobile = document.getElementById('adBottomMobile');
+  if(bottomMobile){
+    const cfgScript = document.createElement('script');
+    cfgScript.textContent = `
+      atOptions = {
+        'key' : 'fc815bc396eabf58d06976b30bbf739a',
+        'format' : 'iframe',
+        'height' : 250,
+        'width' : 300,
+        'params' : {}
+      };
+    `;
+    const loaderScript = document.createElement('script');
+    loaderScript.src = 'https://www.highperformanceformat.com/fc815bc396eabf58d06976b30bbf739a/invoke.js';
+    bottomMobile.appendChild(cfgScript);
+    bottomMobile.appendChild(loaderScript);
+  }
+}
+
+function loadMonetag(){
+  // Push Notification
+  const m1 = document.createElement('script');
+  m1.src = 'https://5gvci.com/act/files/tag.min.js?z=11169169';
+  m1.dataset.cfasync = 'false';
+  m1.async = true;
+  document.body.appendChild(m1);
+
+  // Push Notification Banner
+  const m2 = document.createElement('script');
+  m2.dataset.zone = '11169179';
+  m2.src = 'https://nap5k.com/tag.min.js';
+  document.body.appendChild(m2);
+
+  // Vignette Banner
+  const m3 = document.createElement('script');
+  m3.dataset.zone = '11169180';
+  m3.src = 'https://n6wxm.com/vignette.min.js';
+  document.body.appendChild(m3);
 }
 
 function render(){
@@ -669,9 +734,11 @@ function handleFavClick(id){
 }
 
 function handleViewClick(id){
+  trackEvent('unlock_button_clicked', { script_id: id });
   const item = allItems.find(i => i.id === id);
   if(!item) return;
   if(isScriptUnlocked(id)){
+    trackEvent('already_unlocked_modal_opened', { script_id: id });
     openModal(item);
     return;
   }
@@ -679,6 +746,7 @@ function handleViewClick(id){
 }
 
 function openKeySystem(item){
+  trackEvent('key_system_opened', { script_id: item.id, already_subscribed: hasSubscribed() });
   const overlay = document.getElementById('modalOverlay');
   const modal = document.getElementById('modalContent');
   const subscribed = hasSubscribed();
@@ -718,6 +786,7 @@ let ksAwayStart = null;
 let ksAwayHandler = null;
 
 function ksDoSubscribe(itemId){
+  trackEvent('subscribe_button_clicked', { script_id: itemId });
   const btn = document.getElementById('ksSubBtn');
   btn.disabled = true;
   btn.textContent = 'Waiting for you to subscribe…';
@@ -745,6 +814,7 @@ function ksDoSubscribe(itemId){
             btn.disabled = false;
             btn.textContent = 'Subscribe on YouTube';
           }
+          trackEvent('subscribe_verification_failed_too_fast', { script_id: itemId });
           showToast("Looks like you haven't subscribed yet — pls subscribe to continue.");
         }
       }
@@ -761,6 +831,7 @@ function ksDoSubscribe(itemId){
 function ksUnlockStep1(itemId){
   ksCleanupAwayTracking();
   markSubscribed();
+  trackEvent('subscribe_verified', { script_id: itemId });
   const step1 = document.getElementById('ksStep1');
   const step2 = document.getElementById('ksStep2');
   if(step1) step1.style.display = 'none';
@@ -782,6 +853,7 @@ function ksGoUnlock(itemId, method){
   const item = allItems.find(i => i.id === itemId);
   if(!item) return;
   const link = method === 'lootlabs' ? item.lootlabs_link : item.linkvertise_link;
+  trackEvent('unlock_method_clicked', { script_id: itemId, method: method, has_link: !!link });
   if(!link){
     showToast('No ' + method + ' link set for this script yet.');
     return;
@@ -831,6 +903,26 @@ document.getElementById('searchInput').addEventListener('input', render);
 document.getElementById('categoryFilter').addEventListener('change', render);
 document.getElementById('sortSelect').addEventListener('change', render);
 document.getElementById('favOnly').addEventListener('change', render);
+
+// ---------------------------------------------------------------------------
+// Analytics — GA4 event tracking for the full unlock funnel.
+// trackEvent() is a thin wrapper so it's a no-op if GA hasn't loaded yet,
+// and so every funnel step is logged from exactly one place.
+// ---------------------------------------------------------------------------
+function trackEvent(name, params){
+  params = params || {};
+  if(typeof gtag === 'function'){
+    gtag('event', name, params);
+  }
+  if(window.location.hostname === 'localhost' || window.location.search.includes('debug=1')){
+    console.log('[track]', name, params);
+  }
+}
+
+// Page landing event — fires once GA is ready, separate from script init.
+window.addEventListener('load', () => {
+  trackEvent('page_loaded', { path: window.location.pathname, has_query: !!window.location.search });
+});
 
 loadData();
 </script>
