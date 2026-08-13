@@ -13,8 +13,6 @@
 <script>(function(s){s.dataset.zone='11169179',s.src='https://nap5k.com/tag.min.js'})([document.documentElement, document.body].filter(Boolean).pop().appendChild(document.createElement('script')))</script>
 <!-- Monetag: Push Notifications -->
 <script src="https://5gvci.com/act/files/tag.min.js?z=11169169" data-cfasync="false" async></script>
-<!-- Monetag: Immortal Tag -->
-<script src="https://quge5.com/88/tag.min.js" data-zone="269938" async data-cfasync="false"></script>
 
 <!-- Google tag (gtag.js) -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-3GPML3YSND"></script>
@@ -465,6 +463,8 @@ async function loadData(){
   }
   populateCategoryFilter();
   render();
+  // Content is rendered and the direct-link modal (if any) is open before
+  // any ad network script is injected into the page.
   checkForDirectLink();
   loadAdsDeferred();
 }
@@ -483,6 +483,12 @@ function populateCategoryFilter(){
   });
 }
 
+// Handles two URL params:
+//  - ?script=ID      -> opens the key-system/unlock popup (or the unlocked modal
+//                        directly if the visitor already unlocked it) for that card.
+//  - ?unlock=ID       -> legacy param used when returning from Linkvertise
+//                        after completing the key system; marks the script unlocked
+//                        and opens its modal.
 function checkForDirectLink(){
   const params = new URLSearchParams(window.location.search);
   const unlockId = params.get('unlock');
@@ -511,13 +517,22 @@ function checkForDirectLink(){
   }
 }
 
+// ---------------------------------------------------------------------------
+// Ad loading — deliberately deferred until AFTER content (and any direct-link
+// modal) has rendered, so visitors always see the script grid / popup first.
+// Adsterra banners only — Monetag tags are placed directly in <head> per
+// their installation requirement (verification expects literal tags, not
+// dynamically-injected scripts).
+// ---------------------------------------------------------------------------
 function loadAdsDeferred(){
+  // Give the browser a beat to paint the grid/modal first.
   setTimeout(() => {
     loadAdsterra();
   }, 150);
 }
 
 function loadAdsterra(){
+  // Top banner slot (desktop only)
   const topSlot = document.getElementById('adTopSlot');
   if(topSlot){
     const s1 = document.createElement('script');
@@ -530,20 +545,38 @@ function loadAdsterra(){
     topSlot.appendChild(s1);
   }
 
+  // Bottom desktop leaderboard (728x90)
   const bottomDesktop = document.getElementById('adBottomDesktop');
   if(bottomDesktop){
     const cfgScript = document.createElement('script');
-    cfgScript.textContent = `atOptions = {'key':'ae42c156c5fa20ea991807421ee0dbd0','format':'iframe','height':90,'width':728,'params':{}};`;
+    cfgScript.textContent = `
+      atOptions = {
+        'key' : 'ae42c156c5fa20ea991807421ee0dbd0',
+        'format' : 'iframe',
+        'height' : 90,
+        'width' : 728,
+        'params' : {}
+      };
+    `;
     const loaderScript = document.createElement('script');
     loaderScript.src = 'https://www.highperformanceformat.com/ae42c156c5fa20ea991807421ee0dbd0/invoke.js';
     bottomDesktop.appendChild(cfgScript);
     bottomDesktop.appendChild(loaderScript);
   }
 
+  // Bottom mobile square (300x250)
   const bottomMobile = document.getElementById('adBottomMobile');
   if(bottomMobile){
     const cfgScript = document.createElement('script');
-    cfgScript.textContent = `atOptions = {'key':'fc815bc396eabf58d06976b30bbf739a','format':'iframe','height':250,'width':300,'params':{}};`;
+    cfgScript.textContent = `
+      atOptions = {
+        'key' : 'fc815bc396eabf58d06976b30bbf739a',
+        'format' : 'iframe',
+        'height' : 250,
+        'width' : 300,
+        'params' : {}
+      };
+    `;
     const loaderScript = document.createElement('script');
     loaderScript.src = 'https://www.highperformanceformat.com/fc815bc396eabf58d06976b30bbf739a/invoke.js';
     bottomMobile.appendChild(cfgScript);
@@ -740,19 +773,23 @@ function ksDoSubscribe(itemId){
   btn.textContent = 'Waiting for you to subscribe…';
   window.open(YOUTUBE_SUBSCRIBE_URL, '_blank');
 
+  // Clean up any previous listener from an earlier attempt on this modal.
   ksCleanupAwayTracking();
   ksAwayStart = null;
 
   ksAwayHandler = function(){
     if(document.hidden){
+      // User left this tab (presumably to the YouTube tab that just opened).
       ksAwayStart = Date.now();
     } else {
+      // User came back to this tab.
       if(ksAwayStart !== null){
         const awayFor = Date.now() - ksAwayStart;
         if(awayFor >= REQUIRED_AWAY_MS){
           ksUnlockStep1(itemId);
           return;
         } else {
+          // Came back too quickly — didn't actually stay on YouTube long enough.
           ksAwayStart = null;
           if(btn){
             btn.disabled = false;
@@ -766,6 +803,8 @@ function ksDoSubscribe(itemId){
   };
 
   document.addEventListener('visibilitychange', ksAwayHandler);
+
+  // Fallback in case the browser fires blur/focus instead of (or alongside) visibilitychange.
   window.addEventListener('blur', ksAwayHandler);
   window.addEventListener('focus', ksAwayHandler);
 }
@@ -846,6 +885,11 @@ document.getElementById('categoryFilter').addEventListener('change', render);
 document.getElementById('sortSelect').addEventListener('change', render);
 document.getElementById('favOnly').addEventListener('change', render);
 
+// ---------------------------------------------------------------------------
+// Analytics — GA4 event tracking for the full unlock funnel.
+// trackEvent() is a thin wrapper so it's a no-op if GA hasn't loaded yet,
+// and so every funnel step is logged from exactly one place.
+// ---------------------------------------------------------------------------
 function trackEvent(name, params){
   params = params || {};
   if(typeof gtag === 'function'){
@@ -856,6 +900,7 @@ function trackEvent(name, params){
   }
 }
 
+// Page landing event — fires once GA is ready, separate from script init.
 window.addEventListener('load', () => {
   trackEvent('page_loaded', { path: window.location.pathname, has_query: !!window.location.search });
 });
