@@ -513,8 +513,8 @@
 
 <script>
 // ─── CONFIG ───────────────────────────────────────────────────
-const PANDA_SERVICE_ID = "jujutsushenaigans";
-const PANDA_API_KEY    = "a4a944a4-9aa4-48e6-8cf0-6d4ea6f4321d"; // paste regenerated key here
+
+
 const LV_LINK          = "https://direct-link.net/6449051/wVEPsbUYu4fD";
 const DISCORD_INVITE   = "https://discord.gg/g93eYSGMW";
 // ─────────────────────────────────────────────────────────────
@@ -617,18 +617,7 @@ async function fetchKey() {
   setStatus(stat, 'info', '<span class="spinner"></span> &nbsp;Generating your key…');
 
   try {
-    const res = await fetch('https://api.pandauth.com/api/v1/keys/generate', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'Authorization': PANDA_API_KEY
-      },
-      body: JSON.stringify({
-        serviceId: PANDA_SERVICE_ID,
-        expiresIn: 3600,
-        note: 'web-generated'
-      })
-    });
+   const res = await fetch('https://keygen.scriptify.workers.dev/', { method: 'POST' });
 
     const data = await res.json();
 
