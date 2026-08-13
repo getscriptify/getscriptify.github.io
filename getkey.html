@@ -163,6 +163,20 @@
   .gold-btn:hover { filter: brightness(1.1); }
   .gold-btn:active { transform: scale(0.98); }
 
+  /* Divider */
+  .or-divider {
+    display: flex; align-items: center; gap: 12px;
+    margin: 4px 0 10px;
+  }
+  .or-divider::before,
+  .or-divider::after {
+    content: ''; flex: 1; height: 1px; background: var(--border);
+  }
+  .or-divider span {
+    font-size: 11px; font-weight: 700; letter-spacing: 0.08em;
+    text-transform: uppercase; color: var(--text-faint);
+  }
+
   /* Status */
   .status { display: none; padding: 13px 16px; border-radius: 8px; font-size: 13px; margin-top: 12px; line-height: 1.5; border: 1px solid transparent; }
   .status.show { display: flex; align-items: flex-start; gap: 10px; }
@@ -256,10 +270,24 @@
       <div class="status info" id="discordStatus"></div>
     </div>
 
-    <!-- Step 2: Linkvertise -->
+    <!-- Step 2: Checkpoint choice -->
     <div class="section" id="sec2">
       <div class="section-label">Step 2 — Complete Checkpoint</div>
-      <button class="action-btn" id="lvBtn" onclick="doLinkvertise()">
+
+      <!-- Lootlabs (primary) -->
+      <button class="action-btn" id="llBtn" onclick="doCheckpoint('lootlabs')">
+        <div class="btn-icon">🧩</div>
+        <div class="btn-text">
+          <div class="btn-name">Continue with Lootlabs</div>
+          <div class="btn-hint">Complete tasks · Supports free keys</div>
+        </div>
+        <div class="btn-arrow">→</div>
+      </button>
+
+      <div class="or-divider"><span>or</span></div>
+
+      <!-- Linkvertise (secondary) -->
+      <button class="action-btn" id="lvBtn" onclick="doCheckpoint('linkvertise')">
         <div class="btn-icon">🔗</div>
         <div class="btn-text">
           <div class="btn-name">Continue with Linkvertise</div>
@@ -267,6 +295,7 @@
         </div>
         <div class="btn-arrow">→</div>
       </button>
+
       <div class="status info" id="lvStatus"></div>
     </div>
 
@@ -297,36 +326,31 @@
 
 <script>
 // ─── CONFIG ───────────────────────────────────────────────────
-const WORKER   = 'https://keygen.scriptify.workers.dev';
-const KYS_LINK = 'https://kys.linkvertise.lol/DTOM/ba4ec6e7-a3bd-4d0c-bf9b-f88fac122789?antibypass=true&apimade=fl';
+const WORKER           = 'https://keygen.scriptify.workers.dev';
+const KYS_LINKVERTISE  = 'https://kys.linkvertise.lol/DTOM/79460c82-55bd-4513-aeaf-bbbfaa46de94?antibypass=true&apimade=fl';
+const KYS_LOOTLABS     = 'https://kys.linkvertise.lol/DTOM/f33ebc7d-6206-4055-8829-a6594d83fd09?antibypass=true&apimade=fl';
 // ─────────────────────────────────────────────────────────────
 
 let currentKey = null;
 
-const getToken      = ()  => localStorage.getItem('sf_token');
-const setToken      = (t) => localStorage.setItem('sf_token', t);
-const clearToken    = ()  => localStorage.removeItem('sf_token');
-const discordDone   = ()  => localStorage.getItem('sf_dc') === '1';
-const setDiscordDone= ()  => localStorage.setItem('sf_dc', '1');
+const getToken       = ()  => localStorage.getItem('sf_token');
+const setToken       = (t) => localStorage.setItem('sf_token', t);
+const clearToken     = ()  => localStorage.removeItem('sf_token');
+const discordDone    = ()  => localStorage.getItem('sf_dc') === '1';
+const setDiscordDone = ()  => localStorage.setItem('sf_dc', '1');
 
 // ─── INIT ─────────────────────────────────────────────────────
 window.addEventListener('DOMContentLoaded', async () => {
   const p = new URLSearchParams(window.location.search);
 
-  // Returning from Linkvertise with cp=1
+  // Returning from checkpoint with cp=1
   if (p.get('cp') === '1') {
     window.history.replaceState({}, '', window.location.pathname);
     const token = getToken();
-    if (!token) {
-      // No token — restart
+    if (!token || !discordDone()) {
       goToStep(1);
       return;
     }
-    if (!discordDone()) {
-      goToStep(1);
-      return;
-    }
-    // Verify the token server-side, then fetch key
     goToStep(2);
     await verifyAndGetKey(token);
     return;
@@ -363,7 +387,6 @@ async function doDiscord() {
   btn.disabled = true;
   setStatus(stat, 'info', 'Waiting for you to join… switch back after joining.');
 
-  // Issue a token from the server NOW (before they leave for Discord)
   try {
     const res  = await fetch(`${WORKER}/token`, { method: 'POST' });
     const data = await res.json();
@@ -400,28 +423,30 @@ function cleanup() {
   }
 }
 
-// ─── STEP 2: LINKVERTISE ─────────────────────────────────────
-function doLinkvertise() {
-  const btn  = document.getElementById('lvBtn');
-  const stat = document.getElementById('lvStatus');
+// ─── STEP 2: CHECKPOINT ───────────────────────────────────────
+function doCheckpoint(provider) {
+  const stat  = document.getElementById('lvStatus');
+  const llBtn = document.getElementById('llBtn');
+  const lvBtn = document.getElementById('lvBtn');
 
   const token = getToken();
   if (!token) {
-    // Token missing — re-issue one silently before sending them to LV
     fetch(`${WORKER}/token`, { method: 'POST' })
       .then(r => r.json())
       .then(d => { if (d.token) setToken(d.token); });
   }
 
-  btn.disabled = true;
-  setStatus(stat, 'info', 'Opening Linkvertise… complete the steps then return here.');
+  // Disable both buttons
+  llBtn.disabled = true;
+  lvBtn.disabled = true;
 
-  // Return URL tells the page to call /verify → /getkey
-  const returnUrl = window.location.href.split('?')[0] + '?cp=1';
+  const label = provider === 'lootlabs' ? 'Lootlabs' : 'Linkvertise';
+  setStatus(stat, 'info', `Opening ${label}… complete the steps then return here.`);
+
+  const kysLink = provider === 'lootlabs' ? KYS_LOOTLABS : KYS_LINKVERTISE;
 
   setTimeout(() => {
-    // KYS Linkvertise — destination is set in your KYS dashboard to returnUrl
-    window.location.href = KYS_LINK;
+    window.location.href = kysLink;
   }, 400);
 }
 
@@ -431,7 +456,6 @@ async function verifyAndGetKey(token) {
   setStatus(stat, 'info', '<span class="spinner"></span> &nbsp;Verifying checkpoint…');
 
   try {
-    // 1. Verify the token (Linkvertise was completed)
     const vRes  = await fetch(`${WORKER}/verify`, {
       method:  'POST',
       headers: { 'Content-Type': 'application/json' },
@@ -445,7 +469,6 @@ async function verifyAndGetKey(token) {
 
     setStatus(stat, 'info', '<span class="spinner"></span> &nbsp;Generating your key…');
 
-    // 2. Get the key
     const kRes  = await fetch(`${WORKER}/getkey`, {
       method:  'POST',
       headers: { 'Content-Type': 'application/json' },
@@ -457,7 +480,6 @@ async function verifyAndGetKey(token) {
       throw new Error(kData.error || 'Key generation failed');
     }
 
-    // Success — clear token, show key
     clearToken();
     currentKey = kData.key;
     document.getElementById('keyDisplay').textContent = currentKey;
@@ -466,8 +488,8 @@ async function verifyAndGetKey(token) {
 
   } catch (err) {
     setStatus(stat, 'error', '⚠ ' + err.message + '. Try again or contact Discord.');
+    document.getElementById('llBtn').disabled = false;
     document.getElementById('lvBtn').disabled = false;
-    // If token is burned/expired, get a fresh one for retry
     clearToken();
     fetch(`${WORKER}/token`, { method: 'POST' })
       .then(r => r.json())
