@@ -854,7 +854,8 @@ function openKeySystem(item){
   overlay.classList.add('show');
 }
 
-const REQUIRED_AWAY_MS = 4000;
+const REQUIRED_AWAY_MS_YT = 4000;
+const REQUIRED_AWAY_MS_DC = 10000;
 let ksAwayStart = null, ksAwayHandler = null;
 
 // ── Step 1: YouTube ──────────────────────────────────────────
@@ -872,7 +873,7 @@ function ksDoSubscribe(itemId){
     else {
       if(ksAwayStart !== null){
         const awayFor = Date.now() - ksAwayStart;
-        if(awayFor >= REQUIRED_AWAY_MS){
+        if(awayFor >= REQUIRED_AWAY_MS_YT){
           ksVerifiedSubscribe(itemId);
         } else {
           ksAwayStart = null;
@@ -917,7 +918,7 @@ function ksDoDiscord(itemId){
     else {
       if(ksAwayStart !== null){
         const awayFor = Date.now() - ksAwayStart;
-        if(awayFor >= REQUIRED_AWAY_MS){
+        if(awayFor >= REQUIRED_AWAY_MS_DC){
           ksVerifiedDiscord(itemId);
         } else {
           ksAwayStart = null;
