@@ -13,11 +13,8 @@
 <script>(function(s){s.dataset.zone='11169179',s.src='https://nap5k.com/tag.min.js'})([document.documentElement, document.body].filter(Boolean).pop().appendChild(document.createElement('script')))</script>
 <!-- Monetag: Push Notifications -->
 <script src="https://5gvci.com/act/files/tag.min.js?z=11169169" data-cfasync="false" async></script>
-<!-- Monetag: Immortal Tag (was on getkey page already) -->
+<!-- Monetag: Immortal Tag -->
 <script src="https://quge5.com/88/tag.min.js" data-zone="269938" async data-cfasync="false"></script>
-<!-- Adsterra: Direct Script -->
-<script src="https://pl29790256.effectivecpmnetwork.com/c5/0c/fe/c50cfe2e0190efce5bdf339890361786.js"></script>
-
 <!-- Adsterra: Popunder -->
 <script src="https://pl29790256.effectivecpmnetwork.com/c5/0c/fe/c50cfe2e0190efce5bdf339890361786.js"></script>
 
@@ -67,7 +64,6 @@
       var(--bg);
   }
 
-  /* --- RESPONSIVE AD MANAGEMENT --- */
   .desktop-only { display: block; }
   .mobile-only { display: none; }
   @media (max-width: 768px) {
@@ -196,7 +192,6 @@
   .gold-btn:hover { filter: brightness(1.1); }
   .gold-btn:active { transform: scale(0.98); }
 
-  /* Divider */
   .or-divider {
     display: flex; align-items: center; gap: 12px;
     margin: 4px 0 10px;
@@ -210,25 +205,21 @@
     text-transform: uppercase; color: var(--text-faint);
   }
 
-  /* Status */
   .status { display: none; padding: 13px 16px; border-radius: 8px; font-size: 13px; margin-top: 12px; line-height: 1.5; border: 1px solid transparent; }
   .status.show { display: flex; align-items: flex-start; gap: 10px; }
   .status.info    { background: rgba(201,168,76,0.06); border-color: rgba(201,168,76,0.2);  color: var(--gold); }
   .status.error   { background: rgba(204,51,51,0.06);  border-color: rgba(204,51,51,0.25);  color: #e06060; }
   .status.success { background: rgba(74,158,106,0.06); border-color: rgba(74,158,106,0.25); color: #6abf88; }
 
-  /* Key box */
   .key-box { background: var(--bg-input); border: 1px solid var(--gold-dim); border-radius: 10px; padding: 18px 20px; margin-bottom: 14px; box-shadow: 0 0 20px var(--gold-glow); }
   .key-eyebrow { font-size: 10px; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: var(--gold-dim); margin-bottom: 8px; }
   .key-value { font-family: 'SF Mono', Consolas, 'Courier New', monospace; font-size: 13px; color: var(--gold-bright); word-break: break-all; line-height: 1.6; letter-spacing: 0.03em; }
   .key-meta { font-size: 12px; color: var(--text-faint); text-align: center; line-height: 1.6; margin-top: 12px; }
   .key-meta b { color: var(--text-dim); }
 
-  /* Spinner */
   @keyframes spin { to { transform: rotate(360deg); } }
   .spinner { display: inline-block; width: 14px; height: 14px; border: 2px solid rgba(201,168,76,0.2); border-top-color: var(--gold); border-radius: 50%; animation: spin .6s linear infinite; flex-shrink: 0; }
 
-  /* Toast */
   .toast {
     position: fixed; bottom: 28px; left: 50%;
     transform: translateX(-50%) translateY(8px);
@@ -252,7 +243,7 @@
 </head>
 <body>
 
-<!-- TOP AD: PC ONLY (Adsterra) -->
+<!-- TOP AD: PC ONLY -->
 <div class="desktop-only" id="adTopSlot" style="margin: 0 auto 36px auto; width: 100%; max-width: 1600px;"></div>
 
 <div class="header">
@@ -274,43 +265,23 @@
 
   <div class="card-body">
 
-    <!-- Step tracker -->
+    <!-- Step tracker: 2 steps only -->
     <div class="steps">
       <div class="step-item active" id="si1">
         <div class="step-circle" id="sc1">1</div>
-        <div class="step-label">Discord</div>
+        <div class="step-label">Checkpoint</div>
       </div>
       <div class="step-line" id="sl1"></div>
       <div class="step-item" id="si2">
         <div class="step-circle" id="sc2">2</div>
-        <div class="step-label">Checkpoint</div>
-      </div>
-      <div class="step-line" id="sl2"></div>
-      <div class="step-item" id="si3">
-        <div class="step-circle" id="sc3">3</div>
         <div class="step-label">Your Key</div>
       </div>
     </div>
 
-    <!-- Step 1: Discord -->
+    <!-- Step 1: Checkpoint -->
     <div class="section active" id="sec1">
-      <div class="section-label">Step 1 — Join Discord</div>
-      <button class="action-btn" id="discordBtn" onclick="doDiscord()">
-        <div class="btn-icon">💬</div>
-        <div class="btn-text">
-          <div class="btn-name">Join the Discord</div>
-          <div class="btn-hint">Required once — grants access to all keys</div>
-        </div>
-        <div class="btn-arrow">→</div>
-      </button>
-      <div class="status info" id="discordStatus"></div>
-    </div>
+      <div class="section-label">Step 1 — Complete Checkpoint</div>
 
-    <!-- Step 2: Checkpoint choice -->
-    <div class="section" id="sec2">
-      <div class="section-label">Step 2 — Complete Checkpoint</div>
-
-      <!-- Lootlabs (primary) -->
       <button class="action-btn" id="llBtn" onclick="doCheckpoint('lootlabs')">
         <div class="btn-icon">🧩</div>
         <div class="btn-text">
@@ -322,7 +293,6 @@
 
       <div class="or-divider"><span>or</span></div>
 
-      <!-- Linkvertise (secondary) -->
       <button class="action-btn" id="lvBtn" onclick="doCheckpoint('linkvertise')">
         <div class="btn-icon">🔗</div>
         <div class="btn-text">
@@ -335,9 +305,9 @@
       <div class="status info" id="lvStatus"></div>
     </div>
 
-    <!-- Step 3: Key -->
-    <div class="section" id="sec3">
-      <div class="section-label">Step 3 — Copy Your Key</div>
+    <!-- Step 2: Key -->
+    <div class="section" id="sec2">
+      <div class="section-label">Step 2 — Copy Your Key</div>
       <div class="key-box">
         <div class="key-eyebrow">🔑 &nbsp;SCRIPTIFY Key</div>
         <div class="key-value" id="keyDisplay">—</div>
@@ -358,7 +328,7 @@
   <a href="index.html">Scripts</a>
 </div>
 
-<!-- BOTTOM AD: SPLIT PC / MOBILE (Adsterra) -->
+<!-- BOTTOM AD -->
 <div style="margin: 40px auto; width: 100%; display: flex; justify-content: center;">
   <div class="desktop-only" id="adBottomDesktop"></div>
   <div class="mobile-only" id="adBottomMobile"></div>
@@ -367,168 +337,97 @@
 <div class="toast" id="toast"></div>
 
 <script>
-// ─── CONFIG ───────────────────────────────────────────────────
-const WORKER           = 'https://keygen.scriptify.workers.dev';
-const KYS_LINKVERTISE  = 'https://kys.linkvertise.lol/DTOM/79460c82-55bd-4513-aeaf-bbbfaa46de94?antibypass=true&apimade=fl';
-const KYS_LOOTLABS     = 'https://kys.linkvertise.lol/DTOM/56853536-a44f-40c3-8e79-45a2e51c2721?antibypass=true&apimade=fl';
-// ─────────────────────────────────────────────────────────────
+const WORKER          = 'https://keygen.scriptify.workers.dev';
+const KYS_LINKVERTISE = 'https://kys.linkvertise.lol/DTOM/79460c82-55bd-4513-aeaf-bbbfaa46de94?antibypass=true&apimade=fl';
+const KYS_LOOTLABS   = 'https://kys.linkvertise.lol/DTOM/56853536-a44f-40c3-8e79-45a2e51c2721?antibypass=true&apimade=fl';
 
 let currentKey = null;
 
-const getToken       = ()  => localStorage.getItem('sf_token');
-const setToken       = (t) => localStorage.setItem('sf_token', t);
-const clearToken     = ()  => localStorage.removeItem('sf_token');
-const discordDone    = ()  => localStorage.getItem('sf_dc') === '1';
-const setDiscordDone = ()  => localStorage.setItem('sf_dc', '1');
+const getToken   = ()  => localStorage.getItem('sf_token');
+const setToken   = (t) => localStorage.setItem('sf_token', t);
+const clearToken = ()  => localStorage.removeItem('sf_token');
 
-// ─── INIT ─────────────────────────────────────────────────────
 window.addEventListener('DOMContentLoaded', async () => {
   const p = new URLSearchParams(window.location.search);
 
-  // Returning from checkpoint with cp=1
+  // Returning from checkpoint
   if (p.get('cp') === '1') {
     window.history.replaceState({}, '', window.location.pathname);
     const token = getToken();
-    if (!token || !discordDone()) {
-      goToStep(1);
-      return;
-    }
-    goToStep(2);
+    if (!token) { goToStep(1); return; }
+    goToStep(1);
     await verifyAndGetKey(token);
     return;
   }
 
-  // Normal page load
-  if (discordDone()) {
-    goToStep(2);
-  } else {
-    goToStep(1);
-  }
-
-  // Load ads after content is ready
+  goToStep(1);
   loadAdsDeferred();
 });
 
-// ─── STEP NAV ─────────────────────────────────────────────────
 function goToStep(n) {
-  [1,2,3].forEach(i => {
+  [1, 2].forEach(i => {
     document.getElementById('sec' + i).classList.toggle('active', i === n);
     const si = document.getElementById('si' + i);
     const sc = document.getElementById('sc' + i);
     si.className = 'step-item' + (i < n ? ' done' : i === n ? ' active' : '');
     sc.textContent = i < n ? '✓' : i;
   });
-  [1,2].forEach(i => {
-    document.getElementById('sl' + i).classList.toggle('lit', i < n);
-  });
+  document.getElementById('sl1').classList.toggle('lit', n > 1);
 }
 
-// ─── STEP 1: DISCORD ─────────────────────────────────────────
-let awayHandler = null;
-
-async function doDiscord() {
-  const btn  = document.getElementById('discordBtn');
-  const stat = document.getElementById('discordStatus');
-  btn.disabled = true;
-  setStatus(stat, 'info', 'Waiting for you to join… switch back after joining.');
-
-  try {
-    const res  = await fetch(`${WORKER}/token`, { method: 'POST' });
-    const data = await res.json();
-    if (!data.token) throw new Error('No token');
-    setToken(data.token);
-  } catch {
-    setStatus(stat, 'error', '⚠ Could not connect to server. Try again.');
-    btn.disabled = false;
-    return;
-  }
-
-  window.open('https://discord.gg/g93eYSGMW', '_blank');
-
-  let awayAt = null;
-  awayHandler = function () {
-    if (document.hidden) {
-      awayAt = Date.now();
-    } else if (awayAt && Date.now() - awayAt >= 2000) {
-      cleanup();
-      setDiscordDone();
-      showToast('Discord joined ✓');
-      goToStep(2);
-    }
-  };
-  document.addEventListener('visibilitychange', awayHandler);
-  window.addEventListener('focus', awayHandler);
-}
-
-function cleanup() {
-  if (awayHandler) {
-    document.removeEventListener('visibilitychange', awayHandler);
-    window.removeEventListener('focus', awayHandler);
-    awayHandler = null;
-  }
-}
-
-// ─── STEP 2: CHECKPOINT ───────────────────────────────────────
 function doCheckpoint(provider) {
   const stat  = document.getElementById('lvStatus');
   const llBtn = document.getElementById('llBtn');
   const lvBtn = document.getElementById('lvBtn');
 
-  const token = getToken();
-  if (!token) {
-    fetch(`${WORKER}/token`, { method: 'POST' })
-      .then(r => r.json())
-      .then(d => { if (d.token) setToken(d.token); });
-  }
-
-  // Disable both buttons
   llBtn.disabled = true;
   lvBtn.disabled = true;
 
   const label = provider === 'lootlabs' ? 'Lootlabs' : 'Linkvertise';
   setStatus(stat, 'info', `Opening ${label}… complete the steps then return here.`);
 
-  const kysLink = provider === 'lootlabs' ? KYS_LOOTLABS : KYS_LINKVERTISE;
-
-  setTimeout(() => {
-    window.location.href = kysLink;
-  }, 400);
+  // Get a fresh token before redirecting
+  fetch(`${WORKER}/token`, { method: 'POST' })
+    .then(r => r.json())
+    .then(d => {
+      if (d.token) setToken(d.token);
+      const kysLink = provider === 'lootlabs' ? KYS_LOOTLABS : KYS_LINKVERTISE;
+      setTimeout(() => { window.location.href = kysLink; }, 400);
+    })
+    .catch(() => {
+      setStatus(stat, 'error', '⚠ Could not connect to server. Try again.');
+      llBtn.disabled = false;
+      lvBtn.disabled = false;
+    });
 }
 
-// ─── VERIFY + GET KEY ─────────────────────────────────────────
 async function verifyAndGetKey(token) {
   const stat = document.getElementById('lvStatus');
   setStatus(stat, 'info', '<span class="spinner"></span> &nbsp;Verifying checkpoint…');
 
   try {
     const vRes  = await fetch(`${WORKER}/verify`, {
-      method:  'POST',
+      method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body:    JSON.stringify({ token })
+      body: JSON.stringify({ token })
     });
     const vData = await vRes.json();
-
-    if (!vRes.ok || !vData.ok) {
-      throw new Error(vData.error || 'Verification failed');
-    }
+    if (!vRes.ok || !vData.ok) throw new Error(vData.error || 'Verification failed');
 
     setStatus(stat, 'info', '<span class="spinner"></span> &nbsp;Generating your key…');
 
     const kRes  = await fetch(`${WORKER}/getkey`, {
-      method:  'POST',
+      method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body:    JSON.stringify({ token })
+      body: JSON.stringify({ token })
     });
     const kData = await kRes.json();
-
-    if (!kRes.ok || !kData.key) {
-      throw new Error(kData.error || 'Key generation failed');
-    }
+    if (!kRes.ok || !kData.key) throw new Error(kData.error || 'Key generation failed');
 
     clearToken();
     currentKey = kData.key;
     document.getElementById('keyDisplay').textContent = currentKey;
-    goToStep(3);
+    goToStep(2);
     showToast('Key ready — copy it now');
 
   } catch (err) {
@@ -542,7 +441,6 @@ async function verifyAndGetKey(token) {
   }
 }
 
-// ─── COPY ─────────────────────────────────────────────────────
 function copyKey() {
   if (!currentKey) return;
   navigator.clipboard.writeText(currentKey).then(() => {
@@ -553,7 +451,6 @@ function copyKey() {
   });
 }
 
-// ─── HELPERS ──────────────────────────────────────────────────
 function setStatus(el, type, html) {
   el.className = 'status ' + type + ' show';
   el.innerHTML = html;
@@ -566,59 +463,34 @@ function showToast(msg) {
   setTimeout(() => t.classList.remove('show'), 2500);
 }
 
-// ─── ADS ──────────────────────────────────────────────────────
 function loadAdsDeferred() {
-  setTimeout(() => {
-    loadAdsterra();
-  }, 150);
+  setTimeout(() => { loadAdsterra(); }, 150);
 }
 
 function loadAdsterra() {
-  // Top banner slot (desktop only)
   const topSlot = document.getElementById('adTopSlot');
   if (topSlot) {
     const s1 = document.createElement('script');
-    s1.async = true;
-    s1.dataset.cfasync = 'false';
+    s1.async = true; s1.dataset.cfasync = 'false';
     s1.src = 'https://pl29783786.effectivecpmnetwork.com/4317a7032fc1b3e0338592e355aa38a2/invoke.js';
     const containerDiv = document.createElement('div');
     containerDiv.id = 'container-4317a7032fc1b3e0338592e355aa38a2';
     topSlot.appendChild(containerDiv);
     topSlot.appendChild(s1);
   }
-
-  // Bottom desktop leaderboard (728x90)
   const bottomDesktop = document.getElementById('adBottomDesktop');
   if (bottomDesktop) {
     const cfgScript = document.createElement('script');
-    cfgScript.textContent = `
-      atOptions = {
-        'key' : 'ae42c156c5fa20ea991807421ee0dbd0',
-        'format' : 'iframe',
-        'height' : 90,
-        'width' : 728,
-        'params' : {}
-      };
-    `;
+    cfgScript.textContent = `atOptions={'key':'ae42c156c5fa20ea991807421ee0dbd0','format':'iframe','height':90,'width':728,'params':{}};`;
     const loaderScript = document.createElement('script');
     loaderScript.src = 'https://www.highperformanceformat.com/ae42c156c5fa20ea991807421ee0dbd0/invoke.js';
     bottomDesktop.appendChild(cfgScript);
     bottomDesktop.appendChild(loaderScript);
   }
-
-  // Bottom mobile square (300x250)
   const bottomMobile = document.getElementById('adBottomMobile');
   if (bottomMobile) {
     const cfgScript = document.createElement('script');
-    cfgScript.textContent = `
-      atOptions = {
-        'key' : 'fc815bc396eabf58d06976b30bbf739a',
-        'format' : 'iframe',
-        'height' : 250,
-        'width' : 300,
-        'params' : {}
-      };
-    `;
+    cfgScript.textContent = `atOptions={'key':'fc815bc396eabf58d06976b30bbf739a','format':'iframe','height':250,'width':300,'params':{}};`;
     const loaderScript = document.createElement('script');
     loaderScript.src = 'https://www.highperformanceformat.com/fc815bc396eabf58d06976b30bbf739a/invoke.js';
     bottomMobile.appendChild(cfgScript);
