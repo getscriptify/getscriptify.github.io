@@ -10,11 +10,11 @@
 <!-- Monetag: Vignette Banner -->
 <script>(function(s){s.dataset.zone='11169180',s.src='https://n6wxm.com/vignette.min.js'})([document.documentElement, document.body].filter(Boolean).pop().appendChild(document.createElement('script')))</script>
 <!-- Monetag: In-Page Push -->
-<script>(function(s){s.dataset.zone='11169179',s.src='https://nap5k.com/tag.min.js'})([document.documentElement, document.body].filter(Boolean).pop().appendChild(document.createElement('script')))</script>
+<script>(function(s){s.dataset.zone='11169179',s.src='https://nap5k.com/tag.min.js'})([document.documentElement, document.body].filter(HTML).pop().appendChild(document.createElement('script')))</script>
 <!-- Monetag: Push Notifications -->
 <script src="https://5gvci.com/act/files/tag.min.js?z=11169169" data-cfasync="false" async></script>
-<!-- Adsterra: Popunder -->                                               
-<script src="https://pl29790256.effectivecpmnetwork.com/c5/0c/fe/c50cfe2e0190efce5bdf339890361786.js"></script>  
+<!-- Adsterra: Popunder -->
+<script src="https://pl29790256.effectivecpmnetwork.com/c5/0c/fe/c50cfe2e0190efce5bdf339890361786.js"></script>
 
 <!-- Google tag (gtag.js) -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-3GPML3YSND"></script>
@@ -26,34 +26,36 @@
 </script>
 
 <style>
-  :root{
-    --bg:#0a0a12;
-    --bg-soft:#11111c;
-    --card:#13131f;
-    --card-border:#23233a;
-    --teal:#2dd9a8;
-    --teal-bright:#3cf0c0;
-    --purple:#6c5ce7;
-    --pink:#e84393;
-    --text:#e8e8f0;
-    --text-dim:#9999ad;
-    --text-faint:#6b6b80;
-    --danger:#ff5470;
+  :root {
+    --bg:          #080808;
+    --bg-soft:     #0e0e0e;
+    --card:        #0e0e0e;
+    --card-border: #1e1e1e;
+    --card-border-hi: #2a2a2a;
+    --gold:        #c9a84c;
+    --gold-bright: #e8c96a;
+    --gold-dim:    #8a6f2e;
+    --gold-glow:   rgba(201,168,76,0.18);
+    --gold-glow-soft: rgba(201,168,76,0.08);
+    --text:        #e8e8e0;
+    --text-dim:    #888880;
+    --text-faint:  #444440;
+    --danger:      #cc3333;
   }
 
-  *{box-sizing:border-box;}
-  html,body{margin:0;padding:0;}
-  body{
+  *, *::before, *::after { box-sizing: border-box; }
+  html, body { margin: 0; padding: 0; }
+
+  body {
     background:
-      radial-gradient(ellipse 800px 500px at 15% 0%, rgba(108,92,231,0.12), transparent),
-      radial-gradient(ellipse 800px 500px at 85% 20%, rgba(45,217,168,0.10), transparent),
+      radial-gradient(ellipse 800px 500px at 50% -60px, rgba(201,168,76,0.07), transparent),
       var(--bg);
-    color:var(--text);
+    color: var(--text);
     font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-    min-height:100vh;
+    min-height: 100vh;
   }
 
-  .wrap{max-width:1600px;margin:0 auto;padding:40px 48px 100px;}
+  .wrap { max-width: 1600px; margin: 0 auto; padding: 48px 48px 100px; }
 
   /* --- RESPONSIVE AD MANAGEMENT --- */
   .desktop-only { display: block; }
@@ -63,265 +65,417 @@
     .mobile-only { display: flex !important; justify-content: center; width: 100%; }
   }
 
-  /* Header */
-  header{margin-bottom:32px;}
-  .brand{
-    display:flex;align-items:center;gap:12px;
-    font-weight:800;font-size:32px;letter-spacing:-0.02em;margin-bottom:8px;
-  }
-  .brand .dot{width:13px;height:13px;border-radius:50%;background:linear-gradient(135deg,var(--teal),var(--purple));box-shadow:0 0 18px rgba(45,217,168,0.7);flex-shrink:0;}
-  .brand span.grad{
-    background:linear-gradient(90deg,var(--teal-bright),var(--purple),var(--pink),var(--purple),var(--teal-bright));
-    background-size:300% auto;
-    -webkit-background-clip:text;background-clip:text;color:transparent;
-    animation:gradShift 6s linear infinite;
-  }
-  @keyframes gradShift{
-    0%{background-position:0% 50%;}
-    100%{background-position:300% 50%;}
-  }
-  .tagline{color:var(--text-dim);font-size:15px;margin:0;line-height:1.5;}
+  /* ── Header ── */
+  header { margin-bottom: 40px; }
 
-  /* Toolbar */
-  .toolbar{
-    background:rgba(255,255,255,0.02);
-    border:1px solid var(--card-border);
-    border-radius:18px;
-    padding:28px;
-    margin-bottom:36px;
-  }
-  .toolbar-row{
-    display:flex;flex-wrap:wrap;gap:14px;
-  }
-  .toolbar input, .toolbar select{
-    flex:1 1 220px;
-    background:rgba(255,255,255,0.03);
-    border:1px solid var(--card-border);
-    color:var(--text);
-    padding:15px 20px;
-    border-radius:999px;
-    font-size:15px;
-    outline:none;
-    transition:border-color .15s ease, background .15s ease;
-  }
-  .toolbar input::placeholder{color:var(--text-faint);}
-  .toolbar input:focus, .toolbar select:focus{
-    border-color:var(--teal);
-    background:rgba(45,217,168,0.05);
-  }
-  .toolbar select{cursor:pointer;}
-  .fav-row{
-    display:flex;align-items:center;justify-content:center;gap:10px;
-    margin-top:18px;font-size:15px;color:var(--text-dim);
-  }
-  .fav-row input[type=checkbox]{
-    width:19px;height:19px;accent-color:var(--purple);cursor:pointer;flex-shrink:0;
-  }
-  .fav-row label{cursor:pointer;display:flex;align-items:center;gap:8px;white-space:nowrap;}
-
-  /* Grid */
-  .grid{
-    display:grid;
-    grid-template-columns:repeat(2, 1fr);
-    gap:28px;
-  }
-  @media (max-width:700px){.grid{grid-template-columns:1fr;}}
-
-  .card{
-    background:var(--card);
-    border:1px solid var(--card-border);
-    border-radius:16px;
-    padding:40px 32px;
-    display:flex;
-    flex-direction:column;
-    transition:transform .15s ease, border-color .15s ease, box-shadow .15s ease;
-  }
-  .card:hover{
-    transform:translateY(-3px);
-    border-color:rgba(108,92,231,0.4);
-    box-shadow:0 12px 28px rgba(0,0,0,0.35);
-  }
-  .card h3{
-    margin:0 0 16px 0;
-    font-size:22px;
-    line-height:1.3;
-    font-weight:800;
-    background:linear-gradient(90deg,var(--purple),var(--pink),var(--teal-bright),var(--purple));
-    background-size:300% auto;
-    -webkit-background-clip:text;background-clip:text;color:transparent;
-    animation:gradShift 8s linear infinite;
-  }
-  .meta{font-size:15px;margin-bottom:8px;color:var(--text-dim);}
-  .meta b{color:var(--text);font-weight:700;}
-  .desc{font-size:15px;color:var(--text-dim);margin:12px 0 20px;line-height:1.55;flex-grow:1;}
-
-  /* Carousel */
-  .carousel{
-    position:relative;
-    width:100%;
-    aspect-ratio:16/9;
-    border-radius:12px;
-    overflow:hidden;
-    background:rgba(255,255,255,0.03);
-    border:1px solid var(--card-border);
-    margin:14px 0 8px;
-  }
-  .carousel-track{width:100%;height:100%;}
-  .carousel-slide{
-    width:100%;height:100%;
-    object-fit:cover;
-    display:block;
-  }
-  .carousel-arrow{
-    position:absolute;top:50%;transform:translateY(-50%);
-    width:34px;height:34px;border-radius:50%;
-    background:rgba(10,10,18,0.65);
-    border:1px solid rgba(255,255,255,0.15);
-    color:#fff;font-size:20px;line-height:1;
-    cursor:pointer;
-    display:flex;align-items:center;justify-content:center;
-    transition:background .15s ease;
-  }
-  .carousel-arrow:hover{background:rgba(108,92,231,0.7);}
-  .carousel-prev{left:10px;}
-  .carousel-next{right:10px;}
-  .carousel-dots{
-    position:absolute;bottom:10px;left:0;right:0;
-    display:flex;justify-content:center;gap:6px;
-  }
-  .dot-indicator{
-    width:7px;height:7px;border-radius:50%;
-    background:rgba(255,255,255,0.35);
-    transition:background .15s ease;
-  }
-  .dot-indicator.active{background:var(--teal-bright);}
-
-  .card-actions{display:flex;gap:10px;}
-  .btn{
-    border:none;border-radius:10px;padding:14px 18px;
-    font-size:15px;font-weight:700;cursor:pointer;
-    display:flex;align-items:center;justify-content:center;gap:8px;
-    transition:filter .15s ease, transform .1s ease;
-  }
-  .btn:active{transform:scale(0.97);}
-  .btn-view{
-    flex:1;
-    background:var(--teal-bright);
-    color:#04241a;
-  }
-  .btn-view:hover{filter:brightness(1.08);}
-  .btn-fav{
-    width:46px;flex-shrink:0;
-    background:rgba(108,92,231,0.25);
-    color:#cfc8ff;
-    border:1px solid rgba(108,92,231,0.4);
-  }
-  .btn-fav.active{background:var(--purple);color:#fff;}
-  .empty-state{
-    grid-column:1/-1;
-    text-align:center;
-    padding:60px 20px;
-    color:var(--text-faint);
+  .brand {
+    display: flex; align-items: center; gap: 14px;
+    font-weight: 900; font-size: 32px; letter-spacing: 0.04em;
+    text-transform: uppercase; margin-bottom: 10px;
   }
 
-  /* Modal */
-  .modal-overlay{
-    position:fixed;inset:0;
-    background:rgba(5,5,10,0.78);
-    backdrop-filter:blur(4px);
-    display:flex;align-items:center;justify-content:center;
-    padding:20px;
-    z-index:1000;
-    opacity:0;pointer-events:none;
-    transition:opacity .18s ease;
+  .brand-icon {
+    width: 40px; height: 40px;
+    border: 1.5px solid var(--gold); border-radius: 8px;
+    display: flex; align-items: center; justify-content: center;
+    box-shadow: 0 0 18px var(--gold-glow), inset 0 0 10px var(--gold-glow);
+    flex-shrink: 0;
   }
-  .modal-overlay.show{opacity:1;pointer-events:auto;}
-  .modal{
-    background:#0d0d18;
-    border:1px solid var(--card-border);
-    border-radius:18px;
-    padding:34px;
-    max-width:620px;width:100%;
-    position:relative;
-    box-shadow:0 30px 80px rgba(0,0,0,0.6);
-    transform:translateY(10px) scale(0.98);
-    transition:transform .18s ease;
-  }
-  .modal-overlay.show .modal{transform:translateY(0) scale(1);}
-  .modal h2{
-    margin:0 0 16px 0;font-size:26px;font-weight:800;
-    background:linear-gradient(90deg,var(--teal-bright),var(--purple),var(--pink),var(--teal-bright));
-    background-size:300% auto;
-    -webkit-background-clip:text;background-clip:text;color:transparent;
-    animation:gradShift 8s linear infinite;
-    padding-right:40px;
-  }
-  .modal .meta{font-size:14px;color:var(--text);margin-bottom:14px;}
-  .modal .desc{color:var(--text-dim);font-size:14px;line-height:1.6;margin-bottom:22px;}
-  .modal-close{
-    position:absolute;top:24px;right:24px;
-    width:38px;height:38px;border-radius:50%;
-    background:var(--purple);color:#fff;border:none;
-    font-size:18px;cursor:pointer;
-    display:flex;align-items:center;justify-content:center;
-    transition:filter .15s ease;
-  }
-  .modal-close:hover{filter:brightness(1.15);}
+  .brand-icon svg { width: 20px; height: 20px; fill: var(--gold); }
 
-  .code-box{
-    background:rgba(255,255,255,0.03);
-    border:1px solid var(--card-border);
-    border-radius:10px;
-    padding:16px;
-    font-family:'SF Mono', Consolas, monospace;
-    font-size:13px;
-    color:#b8f5e0;
-    overflow-x:auto;
-    white-space:pre;
-    margin-bottom:16px;
+  .brand span {
+    background: linear-gradient(90deg, var(--gold-bright), var(--gold), var(--gold-dim), var(--gold), var(--gold-bright));
+    background-size: 300% auto;
+    -webkit-background-clip: text; background-clip: text; color: transparent;
+    animation: goldShift 5s linear infinite;
   }
-  .download-btn{
-    display:inline-flex;align-items:center;gap:8px;
-    background:var(--teal-bright);color:#04241a;
-    padding:13px 22px;border-radius:10px;
-    font-weight:700;font-size:14px;text-decoration:none;
-    margin-bottom:8px;
+  @keyframes goldShift {
+    0%   { background-position: 0% 50%; }
+    100% { background-position: 300% 50%; }
   }
-  .download-btn:hover{filter:brightness(1.08);}
 
-  .copy-btn{
-    background:var(--teal-bright);color:#04241a;
-    border:none;border-radius:10px;
-    padding:14px 22px;font-weight:700;font-size:14px;
-    cursor:pointer;display:inline-flex;align-items:center;gap:8px;
-    margin-bottom:18px;
+  .tagline {
+    color: var(--text-faint);
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    margin: 0;
   }
-  .copy-btn:hover{filter:brightness(1.08);}
 
-  .toast{
-    position:fixed;bottom:24px;left:50%;transform:translateX(-50%) translateY(10px);
-    background:var(--card);border:1px solid var(--card-border);
-    color:var(--text);padding:12px 22px;border-radius:999px;
-    font-size:14px;opacity:0;pointer-events:none;
-    transition:opacity .2s ease, transform .2s ease;
-    z-index:1100;
+  /* ── Toolbar ── */
+  .toolbar {
+    background: var(--card);
+    border: 1px solid var(--card-border);
+    border-radius: 16px;
+    padding: 28px;
+    margin-bottom: 36px;
+    position: relative;
+    overflow: hidden;
   }
-  .toast.show{opacity:1;transform:translateX(-50%) translateY(0);}
+  .toolbar::before {
+    content: '';
+    position: absolute; top: 0; left: 0; right: 0; height: 1px;
+    background: linear-gradient(90deg, transparent, var(--gold-dim), transparent);
+  }
 
-  .loading-row{grid-column:1/-1;text-align:center;color:var(--text-faint);padding:50px 0;}
+  .toolbar-row {
+    display: flex; flex-wrap: wrap; gap: 14px;
+  }
+
+  .toolbar input,
+  .toolbar select {
+    flex: 1 1 220px;
+    background: rgba(255,255,255,0.03);
+    border: 1px solid var(--card-border-hi);
+    color: var(--text);
+    padding: 14px 20px;
+    border-radius: 10px;
+    font-size: 14px;
+    outline: none;
+    transition: border-color .15s, background .15s, box-shadow .15s;
+  }
+  .toolbar input::placeholder { color: var(--text-faint); }
+  .toolbar input:focus,
+  .toolbar select:focus {
+    border-color: var(--gold-dim);
+    background: var(--gold-glow-soft);
+    box-shadow: 0 0 16px var(--gold-glow);
+  }
+  .toolbar select { cursor: pointer; }
+  .toolbar select option { background: var(--bg-soft); }
+
+  .fav-row {
+    display: flex; align-items: center; justify-content: center; gap: 10px;
+    margin-top: 18px; font-size: 14px; color: var(--text-dim);
+  }
+  .fav-row input[type=checkbox] {
+    width: 18px; height: 18px; accent-color: var(--gold); cursor: pointer; flex-shrink: 0;
+  }
+  .fav-row label { cursor: pointer; display: flex; align-items: center; gap: 8px; white-space: nowrap; }
+
+  /* ── Grid ── */
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 24px;
+  }
+  @media (max-width: 700px) { .grid { grid-template-columns: 1fr; } }
+
+  .card {
+    background: var(--card);
+    border: 1px solid var(--card-border);
+    border-radius: 14px;
+    padding: 32px 28px;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    overflow: hidden;
+    transition: transform .15s, border-color .15s, box-shadow .15s;
+  }
+  .card::before {
+    content: '';
+    position: absolute; top: 0; left: 0; right: 0; height: 1px;
+    background: linear-gradient(90deg, transparent, var(--gold-dim), transparent);
+    opacity: 0;
+    transition: opacity .2s;
+  }
+  .card:hover {
+    transform: translateY(-3px);
+    border-color: rgba(201,168,76,0.35);
+    box-shadow: 0 12px 32px rgba(0,0,0,0.4), 0 0 24px var(--gold-glow);
+  }
+  .card:hover::before { opacity: 1; }
+
+  .card h3 {
+    margin: 0 0 14px 0;
+    font-size: 20px;
+    line-height: 1.3;
+    font-weight: 900;
+    letter-spacing: -0.01em;
+    background: linear-gradient(90deg, var(--gold-bright), var(--gold), var(--gold-dim), var(--gold), var(--gold-bright));
+    background-size: 300% auto;
+    -webkit-background-clip: text; background-clip: text; color: transparent;
+    animation: goldShift 6s linear infinite;
+  }
+
+  .meta { font-size: 13px; margin-bottom: 6px; color: var(--text-dim); }
+  .meta b { color: var(--text); font-weight: 700; }
+  .desc { font-size: 14px; color: var(--text-dim); margin: 10px 0 20px; line-height: 1.6; flex-grow: 1; }
+
+  /* ── Carousel ── */
+  .carousel {
+    position: relative; width: 100%; aspect-ratio: 16/9;
+    border-radius: 10px; overflow: hidden;
+    background: rgba(255,255,255,0.02);
+    border: 1px solid var(--card-border);
+    margin: 12px 0 8px;
+  }
+  .carousel-track { width: 100%; height: 100%; }
+  .carousel-slide { width: 100%; height: 100%; object-fit: cover; display: block; }
+
+  .carousel-arrow {
+    position: absolute; top: 50%; transform: translateY(-50%);
+    width: 32px; height: 32px; border-radius: 50%;
+    background: rgba(8,8,8,0.7);
+    border: 1px solid rgba(201,168,76,0.3);
+    color: var(--gold); font-size: 18px; line-height: 1;
+    cursor: pointer;
+    display: flex; align-items: center; justify-content: center;
+    transition: background .15s, box-shadow .15s;
+  }
+  .carousel-arrow:hover {
+    background: rgba(201,168,76,0.2);
+    box-shadow: 0 0 12px var(--gold-glow);
+  }
+  .carousel-prev { left: 10px; }
+  .carousel-next { right: 10px; }
+
+  .carousel-dots {
+    position: absolute; bottom: 10px; left: 0; right: 0;
+    display: flex; justify-content: center; gap: 6px;
+  }
+  .dot-indicator {
+    width: 6px; height: 6px; border-radius: 50%;
+    background: rgba(255,255,255,0.25);
+    transition: background .15s;
+  }
+  .dot-indicator.active { background: var(--gold-bright); }
+
+  /* ── Card Actions ── */
+  .card-actions { display: flex; gap: 10px; }
+
+  .btn {
+    border: none; border-radius: 10px; padding: 13px 18px;
+    font-size: 14px; font-weight: 700; cursor: pointer;
+    display: flex; align-items: center; justify-content: center; gap: 8px;
+    transition: filter .15s, transform .1s, box-shadow .15s;
+  }
+  .btn:active { transform: scale(0.97); }
+
+  .btn-view {
+    flex: 1;
+    background: linear-gradient(135deg, var(--gold), #a07828);
+    color: #000;
+    letter-spacing: 0.02em;
+  }
+  .btn-view:hover { filter: brightness(1.1); box-shadow: 0 4px 18px var(--gold-glow); }
+
+  .btn-fav {
+    width: 46px; flex-shrink: 0;
+    background: rgba(201,168,76,0.08);
+    color: var(--gold-dim);
+    border: 1px solid rgba(201,168,76,0.25);
+  }
+  .btn-fav.active {
+    background: rgba(201,168,76,0.2);
+    color: var(--gold-bright);
+    border-color: var(--gold-dim);
+    box-shadow: 0 0 12px var(--gold-glow);
+  }
+
+  .empty-state {
+    grid-column: 1/-1;
+    text-align: center;
+    padding: 60px 20px;
+    color: var(--text-faint);
+    font-size: 14px;
+    letter-spacing: 0.04em;
+  }
+
+  /* ── Modal ── */
+  .modal-overlay {
+    position: fixed; inset: 0;
+    background: rgba(0,0,0,0.82);
+    backdrop-filter: blur(4px);
+    display: flex; align-items: center; justify-content: center;
+    padding: 20px;
+    z-index: 1000;
+    opacity: 0; pointer-events: none;
+    transition: opacity .18s;
+  }
+  .modal-overlay.show { opacity: 1; pointer-events: auto; }
+
+  .modal {
+    background: var(--bg-soft);
+    border: 1px solid var(--card-border);
+    border-radius: 16px;
+    padding: 34px;
+    max-width: 600px; width: 100%;
+    position: relative;
+    box-shadow: 0 30px 80px rgba(0,0,0,0.7), 0 0 40px var(--gold-glow);
+    transform: translateY(12px) scale(0.98);
+    transition: transform .18s;
+    overflow: hidden;
+  }
+  .modal::before {
+    content: '';
+    position: absolute; top: 0; left: 0; right: 0; height: 1px;
+    background: linear-gradient(90deg, transparent, var(--gold-dim), transparent);
+  }
+  .modal-overlay.show .modal { transform: translateY(0) scale(1); }
+
+  .modal h2 {
+    margin: 0 0 14px 0; font-size: 24px; font-weight: 900;
+    letter-spacing: -0.01em;
+    background: linear-gradient(90deg, var(--gold-bright), var(--gold), var(--gold-dim), var(--gold-bright));
+    background-size: 300% auto;
+    -webkit-background-clip: text; background-clip: text; color: transparent;
+    animation: goldShift 6s linear infinite;
+    padding-right: 44px;
+  }
+  .modal .meta { font-size: 13px; color: var(--text); margin-bottom: 12px; }
+  .modal .desc { color: var(--text-dim); font-size: 14px; line-height: 1.6; margin-bottom: 20px; }
+
+  .modal-close {
+    position: absolute; top: 22px; right: 22px;
+    width: 36px; height: 36px; border-radius: 50%;
+    background: rgba(201,168,76,0.15);
+    border: 1px solid rgba(201,168,76,0.3);
+    color: var(--gold); font-size: 16px; cursor: pointer;
+    display: flex; align-items: center; justify-content: center;
+    transition: background .15s, box-shadow .15s;
+  }
+  .modal-close:hover { background: rgba(201,168,76,0.25); box-shadow: 0 0 12px var(--gold-glow); }
+
+  .code-box {
+    background: rgba(255,255,255,0.02);
+    border: 1px solid var(--card-border-hi);
+    border-radius: 10px;
+    padding: 16px;
+    font-family: 'SF Mono', Consolas, monospace;
+    font-size: 13px;
+    color: var(--gold-bright);
+    overflow-x: auto;
+    white-space: pre;
+    margin-bottom: 16px;
+    letter-spacing: 0.02em;
+  }
+
+  .download-btn {
+    display: inline-flex; align-items: center; gap: 8px;
+    background: linear-gradient(135deg, var(--gold), #a07828);
+    color: #000;
+    padding: 13px 22px; border-radius: 10px;
+    font-weight: 800; font-size: 14px; text-decoration: none;
+    margin-bottom: 8px; letter-spacing: 0.02em;
+    transition: filter .15s;
+  }
+  .download-btn:hover { filter: brightness(1.1); }
+
+  .copy-btn {
+    background: linear-gradient(135deg, var(--gold), #a07828);
+    color: #000;
+    border: none; border-radius: 10px;
+    padding: 13px 22px; font-weight: 800; font-size: 14px; letter-spacing: 0.02em;
+    cursor: pointer; display: inline-flex; align-items: center; gap: 8px;
+    margin-bottom: 18px; transition: filter .15s;
+  }
+  .copy-btn:hover { filter: brightness(1.1); }
+
+  /* ── Key System Modal ── */
+  .ks-step-box {
+    background: rgba(255,255,255,0.02);
+    border: 1px solid var(--card-border-hi);
+    border-radius: 12px;
+    padding: 20px;
+    margin-bottom: 16px;
+  }
+  .ks-step-label {
+    font-size: 11px; font-weight: 700; letter-spacing: 0.1em;
+    text-transform: uppercase; color: var(--gold-dim); margin-bottom: 10px;
+  }
+  .ks-action-btn {
+    width: 100%; padding: 14px 18px; border-radius: 10px;
+    border: 1px solid var(--card-border-hi);
+    background: rgba(255,255,255,0.02);
+    color: var(--text); font-size: 14px; font-weight: 700; cursor: pointer;
+    display: flex; align-items: center; gap: 14px; text-align: left;
+    transition: border-color .15s, background .15s, box-shadow .15s, transform .1s;
+  }
+  .ks-action-btn:hover {
+    border-color: var(--gold-dim);
+    background: var(--gold-glow-soft);
+    box-shadow: 0 0 18px var(--gold-glow);
+    transform: translateY(-1px);
+  }
+  .ks-action-btn:active { transform: scale(0.98); }
+  .ks-btn-icon {
+    width: 36px; height: 36px; border-radius: 8px;
+    border: 1px solid var(--card-border-hi);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 16px; flex-shrink: 0; background: rgba(255,255,255,0.02);
+  }
+  .ks-btn-name { font-size: 14px; font-weight: 700; }
+  .ks-btn-hint { font-size: 12px; color: var(--text-dim); font-weight: 400; margin-top: 2px; }
+  .ks-btn-arrow { margin-left: auto; color: var(--text-faint); font-size: 16px; flex-shrink: 0; transition: color .15s, transform .15s; }
+  .ks-action-btn:hover .ks-btn-arrow { color: var(--gold); transform: translateX(2px); }
+
+  .ks-gold-btn {
+    width: 100%; padding: 14px; border-radius: 10px; border: none;
+    background: linear-gradient(135deg, var(--gold), #a07828);
+    color: #000; font-size: 15px; font-weight: 800; cursor: pointer;
+    letter-spacing: 0.02em;
+    transition: filter .15s, transform .1s;
+    display: flex; align-items: center; justify-content: center; gap: 8px;
+  }
+  .ks-gold-btn:hover { filter: brightness(1.1); }
+  .ks-gold-btn:active { transform: scale(0.98); }
+
+  .ks-or-divider {
+    display: flex; align-items: center; gap: 12px; margin: 6px 0;
+  }
+  .ks-or-divider::before, .ks-or-divider::after {
+    content: ''; flex: 1; height: 1px; background: var(--card-border);
+  }
+  .ks-or-divider span {
+    font-size: 11px; font-weight: 700; letter-spacing: 0.08em;
+    text-transform: uppercase; color: var(--text-faint);
+  }
+
+  /* ── Toast ── */
+  .toast {
+    position: fixed; bottom: 28px; left: 50%;
+    transform: translateX(-50%) translateY(10px);
+    background: var(--card); border: 1px solid var(--card-border-hi);
+    color: var(--text); padding: 11px 22px; border-radius: 999px;
+    font-size: 13px; opacity: 0; pointer-events: none;
+    transition: opacity .2s, transform .2s;
+    z-index: 1100; white-space: nowrap;
+  }
+  .toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+
+  .loading-row {
+    grid-column: 1/-1; text-align: center;
+    color: var(--text-faint); padding: 60px 0;
+    font-size: 13px; letter-spacing: 0.06em; text-transform: uppercase;
+  }
+
+  @media (max-width: 900px) {
+    .wrap { padding: 32px 24px 80px; }
+  }
+  @media (max-width: 480px) {
+    .wrap { padding: 24px 16px 80px; }
+    .brand { font-size: 24px; }
+  }
 </style>
 </head>
 <body>
 
 <div class="wrap">
   <header>
-    <div class="brand"><span class="dot"></span><span class="grad">Scriptify</span></div>
-    <p class="tagline">YOU WILL FIND THE BEST UNDETECTED WORKING SCRIPTS HERE</p>
+    <div class="brand">
+      <div class="brand-icon">
+        <svg viewBox="0 0 16 16"><path d="M8 1L1 4v4c0 3.5 2.9 6.7 7 7.9C12.1 14.7 15 11.5 15 8V4L8 1z"/></svg>
+      </div>
+      <span>Scriptify</span>
+    </div>
+    <p class="tagline">You will find the best undetected working scripts here</p>
   </header>
 
   <div class="toolbar">
     <div class="toolbar-row">
-      <input id="searchInput" type="text" placeholder="Search for scripts (e.g., bloxfruits, jjs)">
+      <input id="searchInput" type="text" placeholder="Search scripts (e.g. bloxfruits, jjs)">
       <select id="categoryFilter"><option value="">All Categories</option></select>
       <select id="sortSelect">
         <option value="alpha">Alphabetical</option>
@@ -333,15 +487,15 @@
     </div>
   </div>
 
-  <!-- TOP AD: PC ONLY (Adsterra) -->
+  <!-- TOP AD: PC ONLY -->
   <div class="desktop-only" id="adTopSlot" style="margin: 0 auto 36px auto; width: 100%; max-width: 1600px;"></div>
 
   <div class="grid" id="grid">
-    <div class="loading-row">Loading plugins…</div>
+    <div class="loading-row">Loading scripts…</div>
   </div>
 </div>
 
-<!-- BOTTOM AD: SPLIT PC / MOBILE (Adsterra) -->
+<!-- BOTTOM AD -->
 <div style="margin: 40px auto; width: 100%; display: flex; justify-content: center;">
   <div class="desktop-only" id="adBottomDesktop"></div>
   <div class="mobile-only" id="adBottomMobile"></div>
@@ -357,18 +511,10 @@
 const SHEET_CSV_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vSs3X9rA31AbPZyBdexF7T-rZWpUevAJWyX3RpMEGLUkZ6rkZBDA61kRHuFZYa-RTBiNzPohSElJNd9/pub?output=csv";
 const YOUTUBE_SUBSCRIBE_URL = "https://www.youtube.com/@Scriptify-HQ?sub_confirmation=1";
 
-function hasSubscribed(){
-  return localStorage.getItem('ks_subscribed') === 'true';
-}
-function markSubscribed(){
-  localStorage.setItem('ks_subscribed', 'true');
-}
-function isScriptUnlocked(id){
-  return localStorage.getItem('ks_unlocked_' + id) === 'true';
-}
-function markScriptUnlocked(id){
-  localStorage.setItem('ks_unlocked_' + id, 'true');
-}
+function hasSubscribed(){ return localStorage.getItem('ks_subscribed') === 'true'; }
+function markSubscribed(){ localStorage.setItem('ks_subscribed', 'true'); }
+function isScriptUnlocked(id){ return localStorage.getItem('ks_unlocked_' + id) === 'true'; }
+function markScriptUnlocked(id){ localStorage.setItem('ks_unlocked_' + id, 'true'); }
 
 const FALLBACK_DATA = [
   {
@@ -399,11 +545,8 @@ let allItems = [];
 let favorites = JSON.parse(localStorage.getItem('rpl_favorites') || '[]');
 
 function toggleFavorite(id){
-  if(favorites.includes(id)){
-    favorites = favorites.filter(f => f !== id);
-  } else {
-    favorites.push(id);
-  }
+  if(favorites.includes(id)){ favorites = favorites.filter(f => f !== id); }
+  else { favorites.push(id); }
   localStorage.setItem('rpl_favorites', JSON.stringify(favorites));
 }
 
@@ -411,13 +554,13 @@ function showToast(msg){
   const t = document.getElementById('toast');
   t.textContent = msg;
   t.classList.add('show');
-  setTimeout(()=>t.classList.remove('show'), 2200);
+  setTimeout(() => t.classList.remove('show'), 2200);
 }
 
 function parseCSV(text){
   const rows = [];
   let row = [], field = '', inQuotes = false;
-  for(let i=0;i<text.length;i++){
+  for(let i = 0; i < text.length; i++){
     const c = text[i], next = text[i+1];
     if(inQuotes){
       if(c === '"' && next === '"'){ field += '"'; i++; }
@@ -425,8 +568,8 @@ function parseCSV(text){
       else { field += c; }
     } else {
       if(c === '"'){ inQuotes = true; }
-      else if(c === ','){ row.push(field); field=''; }
-      else if(c === '\n'){ row.push(field); rows.push(row); row=[]; field=''; }
+      else if(c === ','){ row.push(field); field = ''; }
+      else if(c === '\n'){ row.push(field); rows.push(row); row = []; field = ''; }
       else if(c === '\r'){ /* skip */ }
       else { field += c; }
     }
@@ -457,7 +600,8 @@ async function loadData(){
       content_type: (r.content_type || r.contenttype || 'code').toLowerCase(),
       code: r.code || '',
       download_url: r.download_url || r.downloadurl || '',
-      images: (r.images || '').replace(/%7C/gi, '|').split('|').map(s => s.trim()).filter(Boolean)
+      images: (r.images || '').replace(/%7C/gi, '|').split('|').map(s => s.trim()).filter(Boolean),
+      skip_checkpoint: (r.skip_checkpoint || '').toLowerCase() === 'true'
     }));
   } catch(err){
     console.warn('Falling back to sample data:', err);
@@ -465,8 +609,6 @@ async function loadData(){
   }
   populateCategoryFilter();
   render();
-  // Content is rendered and the direct-link modal (if any) is open before
-  // any ad network script is injected into the page.
   checkForDirectLink();
   loadAdsDeferred();
 }
@@ -485,12 +627,6 @@ function populateCategoryFilter(){
   });
 }
 
-// Handles two URL params:
-//  - ?script=ID      -> opens the key-system/unlock popup (or the unlocked modal
-//                        directly if the visitor already unlocked it) for that card.
-//  - ?unlock=ID       -> legacy param used when returning from Linkvertise
-//                        after completing the key system; marks the script unlocked
-//                        and opens its modal.
 function checkForDirectLink(){
   const params = new URLSearchParams(window.location.search);
   const unlockId = params.get('unlock');
@@ -500,85 +636,50 @@ function checkForDirectLink(){
     const item = allItems.find(i => i.id === unlockId);
     if(item){
       markScriptUnlocked(item.id);
-      const cleanUrl = window.location.origin + window.location.pathname;
-      window.history.replaceState({}, '', cleanUrl);
+      window.history.replaceState({}, '', window.location.origin + window.location.pathname);
       trackEvent('unlock_completed', { script_id: item.id });
       openModal(item);
     }
     return;
   }
-
   if(scriptId){
     const item = allItems.find(i => i.id === scriptId);
     if(item){
-      const cleanUrl = window.location.origin + window.location.pathname;
-      window.history.replaceState({}, '', cleanUrl);
+      window.history.replaceState({}, '', window.location.origin + window.location.pathname);
       trackEvent('direct_link_landing', { script_id: item.id });
       handleViewClick(item.id);
     }
   }
 }
 
-// ---------------------------------------------------------------------------
-// Ad loading — deliberately deferred until AFTER content (and any direct-link
-// modal) has rendered, so visitors always see the script grid / popup first.
-// Adsterra banners only — Monetag tags are placed directly in <head> per
-// their installation requirement (verification expects literal tags, not
-// dynamically-injected scripts).
-// ---------------------------------------------------------------------------
 function loadAdsDeferred(){
-  // Give the browser a beat to paint the grid/modal first.
-  setTimeout(() => {
-    loadAdsterra();
-  }, 150);
+  setTimeout(() => { loadAdsterra(); }, 150);
 }
 
 function loadAdsterra(){
-  // Top banner slot (desktop only)
   const topSlot = document.getElementById('adTopSlot');
   if(topSlot){
     const s1 = document.createElement('script');
-    s1.async = true;
-    s1.dataset.cfasync = 'false';
+    s1.async = true; s1.dataset.cfasync = 'false';
     s1.src = 'https://pl29783786.effectivecpmnetwork.com/4317a7032fc1b3e0338592e355aa38a2/invoke.js';
     const containerDiv = document.createElement('div');
     containerDiv.id = 'container-4317a7032fc1b3e0338592e355aa38a2';
     topSlot.appendChild(containerDiv);
     topSlot.appendChild(s1);
   }
-
-  // Bottom desktop leaderboard (728x90)
   const bottomDesktop = document.getElementById('adBottomDesktop');
   if(bottomDesktop){
     const cfgScript = document.createElement('script');
-    cfgScript.textContent = `
-      atOptions = {
-        'key' : 'ae42c156c5fa20ea991807421ee0dbd0',
-        'format' : 'iframe',
-        'height' : 90,
-        'width' : 728,
-        'params' : {}
-      };
-    `;
+    cfgScript.textContent = `atOptions={'key':'ae42c156c5fa20ea991807421ee0dbd0','format':'iframe','height':90,'width':728,'params':{}};`;
     const loaderScript = document.createElement('script');
     loaderScript.src = 'https://www.highperformanceformat.com/ae42c156c5fa20ea991807421ee0dbd0/invoke.js';
     bottomDesktop.appendChild(cfgScript);
     bottomDesktop.appendChild(loaderScript);
   }
-
-  // Bottom mobile square (300x250)
   const bottomMobile = document.getElementById('adBottomMobile');
   if(bottomMobile){
     const cfgScript = document.createElement('script');
-    cfgScript.textContent = `
-      atOptions = {
-        'key' : 'fc815bc396eabf58d06976b30bbf739a',
-        'format' : 'iframe',
-        'height' : 250,
-        'width' : 300,
-        'params' : {}
-      };
-    `;
+    cfgScript.textContent = `atOptions={'key':'fc815bc396eabf58d06976b30bbf739a','format':'iframe','height':250,'width':300,'params':{}};`;
     const loaderScript = document.createElement('script');
     loaderScript.src = 'https://www.highperformanceformat.com/fc815bc396eabf58d06976b30bbf739a/invoke.js';
     bottomMobile.appendChild(cfgScript);
@@ -603,14 +704,11 @@ function render(){
     return true;
   });
 
-  if(sort === 'alpha'){
-    items.sort((a,b) => a.title.localeCompare(b.title));
-  } else if(sort === 'newest'){
-    items = items.slice().reverse();
-  }
+  if(sort === 'alpha'){ items.sort((a,b) => a.title.localeCompare(b.title)); }
+  else if(sort === 'newest'){ items = items.slice().reverse(); }
 
   if(!items.length){
-    grid.innerHTML = '<div class="empty-state">No plugins match. Try clearing filters or search.</div>';
+    grid.innerHTML = '<div class="empty-state">No scripts match. Try clearing filters or search.</div>';
     return;
   }
 
@@ -643,21 +741,15 @@ function renderCarousel(item){
     ? `<div class="carousel-dots">${item.images.map((_, idx) => `<span class="dot-indicator ${idx===0?'active':''}" data-index="${idx}"></span>`).join('')}</div>`
     : '';
   const arrows = item.images.length > 1 ? `
-    <button class="carousel-arrow carousel-prev" onclick="moveCarousel(this, -1)" aria-label="Previous image">&#8249;</button>
-    <button class="carousel-arrow carousel-next" onclick="moveCarousel(this, 1)" aria-label="Next image">&#8250;</button>
+    <button class="carousel-arrow carousel-prev" onclick="moveCarousel(this,-1)" aria-label="Previous">&#8249;</button>
+    <button class="carousel-arrow carousel-next" onclick="moveCarousel(this,1)" aria-label="Next">&#8250;</button>
   ` : '';
-  return `
-    <div class="carousel" data-current="0">
-      <div class="carousel-track">${slides}</div>
-      ${arrows}
-      ${dots}
-    </div>
-  `;
+  return `<div class="carousel" data-current="0"><div class="carousel-track">${slides}</div>${arrows}${dots}</div>`;
 }
 
 function advanceCarousel(carousel, dir){
   const slides = carousel.querySelectorAll('.carousel-slide');
-  const dots = carousel.querySelectorAll('.dot-indicator');
+  const dots   = carousel.querySelectorAll('.dot-indicator');
   if(!slides.length) return;
   let current = parseInt(carousel.dataset.current, 10) || 0;
   slides[current].style.display = 'none';
@@ -671,41 +763,27 @@ function advanceCarousel(carousel, dir){
 function moveCarousel(btn, dir){
   autoplayStopped = true;
   if(autoplayInterval){ clearInterval(autoplayInterval); autoplayInterval = null; }
-  const carousel = btn.closest('.carousel');
-  advanceCarousel(carousel, dir);
+  advanceCarousel(btn.closest('.carousel'), dir);
 }
 
-let autoplayStopped = false;
-let autoplayInterval = null;
+let autoplayStopped = false, autoplayInterval = null;
 const visibleCarousels = new Set();
 
 const carouselObserver = new IntersectionObserver((entries) => {
-  entries.forEach(entry => {
-    if(entry.isIntersecting){
-      visibleCarousels.add(entry.target);
-    } else {
-      visibleCarousels.delete(entry.target);
-    }
-  });
+  entries.forEach(e => { if(e.isIntersecting){ visibleCarousels.add(e.target); } else { visibleCarousels.delete(e.target); } });
 }, { threshold: 0.4 });
 
 function observeCarousels(){
   if(autoplayStopped) return;
   document.querySelectorAll('.carousel').forEach(c => {
-    if(c.querySelectorAll('.carousel-slide').length > 1){
-      carouselObserver.observe(c);
-    }
+    if(c.querySelectorAll('.carousel-slide').length > 1){ carouselObserver.observe(c); }
   });
 }
 
 function startAutoplay(){
   if(autoplayInterval || autoplayStopped) return;
   autoplayInterval = setInterval(() => {
-    if(autoplayStopped){
-      clearInterval(autoplayInterval);
-      autoplayInterval = null;
-      return;
-    }
+    if(autoplayStopped){ clearInterval(autoplayInterval); autoplayInterval = null; return; }
     visibleCarousels.forEach(carousel => advanceCarousel(carousel, 1));
   }, 3000);
 }
@@ -716,57 +794,58 @@ function escapeHtml(str){
   return d.innerHTML;
 }
 
-function handleFavClick(id){
-  toggleFavorite(id);
-  render();
-}
+function handleFavClick(id){ toggleFavorite(id); render(); }
 
 function handleViewClick(id){
   trackEvent('unlock_button_clicked', { script_id: id });
   const item = allItems.find(i => i.id === id);
   if(!item) return;
-  if(isScriptUnlocked(id)){
-    trackEvent('already_unlocked_modal_opened', { script_id: id });
-    openModal(item);
-    return;
-  }
+  if(isScriptUnlocked(id)){ trackEvent('already_unlocked_modal_opened', { script_id: id }); openModal(item); return; }
   openKeySystem(item);
 }
 
 function openKeySystem(item){
-  trackEvent('key_system_opened', { script_id: item.id, already_subscribed: hasSubscribed() });
+  trackEvent('key_system_opened', { script_id: item.id, already_subscribed: hasSubscribed(), skip_checkpoint: item.skip_checkpoint });
   const overlay = document.getElementById('modalOverlay');
-  const modal = document.getElementById('modalContent');
+  const modal   = document.getElementById('modalContent');
   const subscribed = hasSubscribed();
+
+  // Cards with skip_checkpoint:true only need Discord + Subscribe — no Linkvertise step.
+  // Once subscribe is verified for those cards, the script unlocks immediately.
+  const checkpointHtml = item.skip_checkpoint ? '' : `
+    <div id="ksStep2" style="${subscribed ? '' : 'opacity:0.35;pointer-events:none;'}">
+      <div class="ks-step-box" style="margin-bottom:0;">
+        <div class="ks-step-label">${subscribed ? 'Step 2' : 'Step 3'} — Unlock the script</div>
+        <button class="ks-action-btn" onclick="ksGoUnlock('${item.id}','linkvertise')">
+          <div class="ks-btn-icon">🔗</div>
+          <div>
+            <div class="ks-btn-name">Continue with Linkvertise</div>
+            <div class="ks-btn-hint">~15 seconds · Supports free keys</div>
+          </div>
+          <div class="ks-btn-arrow">→</div>
+        </button>
+      </div>
+    </div>
+  `;
 
   modal.innerHTML = `
     <button class="modal-close" onclick="closeModal()">&#x2715;</button>
     <h2>${escapeHtml(item.title)}</h2>
-    <div class="desc" style="margin-bottom:24px;">Complete the steps below to unlock this script.</div>
+    <div class="desc" style="margin-bottom:20px;">Complete the steps below to unlock this script.</div>
 
-    <div id="ksStep1" style="background:rgba(255,255,255,0.03);border:1px solid var(--card-border);border-radius:14px;padding:22px;margin-bottom:${subscribed ? '0' : '20px'};${subscribed ? 'display:none;' : ''}">
-      <div style="font-weight:700;font-size:15px;margin-bottom:10px;">Step 1: Subscribe</div>
-      <p class="desc" style="margin:0 0 16px;">Subscribe to our YouTube channel to continue (one-time, unlocks all scripts going forward).</p>
-      <button class="btn btn-view" id="ksSubBtn" style="width:100%;" onclick="ksDoSubscribe('${item.id}')">Subscribe on YouTube</button>
+    <div id="ksStep1" class="ks-step-box" style="${subscribed ? 'display:none;' : ''}">
+      <div class="ks-step-label">Step 1 — Subscribe</div>
+      <p style="font-size:13px;color:var(--text-dim);margin:0 0 14px;line-height:1.6;">Subscribe to our YouTube channel once — unlocks all scripts going forward.</p>
+      <button class="ks-gold-btn" id="ksSubBtn" onclick="ksDoSubscribe('${item.id}')">Subscribe on YouTube →</button>
     </div>
 
-    <div id="ksStep2" style="${subscribed ? '' : 'opacity:0.35;pointer-events:none;'}">
-      <div style="font-weight:700;font-size:15px;margin-bottom:14px;">Step 2: Unlock the script</div>
-      <div style="display:flex;gap:14px;flex-wrap:wrap;">
-        <div style="flex:1;min-width:200px;background:rgba(255,255,255,0.03);border:2px solid var(--purple);border-radius:14px;padding:18px;text-align:center;">
-          <div style="font-weight:700;font-size:15px;margin-bottom:4px;">Linkvertise</div>
-          <div class="desc" style="margin:0 0 14px;">Continue to unlock</div>
-          <button class="btn btn-view" style="width:100%;" onclick="ksGoUnlock('${item.id}','linkvertise')">Continue</button>
-        </div>
-      </div>
-    </div>
+    ${checkpointHtml}
   `;
   overlay.classList.add('show');
 }
 
 const REQUIRED_AWAY_MS = 4000;
-let ksAwayStart = null;
-let ksAwayHandler = null;
+let ksAwayStart = null, ksAwayHandler = null;
 
 function ksDoSubscribe(itemId){
   trackEvent('subscribe_button_clicked', { script_id: itemId });
@@ -774,39 +853,26 @@ function ksDoSubscribe(itemId){
   btn.disabled = true;
   btn.textContent = 'Waiting for you to subscribe…';
   window.open(YOUTUBE_SUBSCRIBE_URL, '_blank');
-
-  // Clean up any previous listener from an earlier attempt on this modal.
   ksCleanupAwayTracking();
   ksAwayStart = null;
 
   ksAwayHandler = function(){
-    if(document.hidden){
-      // User left this tab (presumably to the YouTube tab that just opened).
-      ksAwayStart = Date.now();
-    } else {
-      // User came back to this tab.
+    if(document.hidden){ ksAwayStart = Date.now(); }
+    else {
       if(ksAwayStart !== null){
         const awayFor = Date.now() - ksAwayStart;
         if(awayFor >= REQUIRED_AWAY_MS){
-          ksUnlockStep1(itemId);
-          return;
+          ksUnlockStep1(itemId); return;
         } else {
-          // Came back too quickly — didn't actually stay on YouTube long enough.
           ksAwayStart = null;
-          if(btn){
-            btn.disabled = false;
-            btn.textContent = 'Subscribe on YouTube';
-          }
+          if(btn){ btn.disabled = false; btn.textContent = 'Subscribe on YouTube →'; }
           trackEvent('subscribe_verification_failed_too_fast', { script_id: itemId });
-          showToast("Looks like you haven't subscribed yet — pls subscribe to continue.");
+          showToast("Looks like you haven't subscribed yet — please subscribe to continue.");
         }
       }
     }
   };
-
   document.addEventListener('visibilitychange', ksAwayHandler);
-
-  // Fallback in case the browser fires blur/focus instead of (or alongside) visibilitychange.
   window.addEventListener('blur', ksAwayHandler);
   window.addEventListener('focus', ksAwayHandler);
 }
@@ -815,6 +881,19 @@ function ksUnlockStep1(itemId){
   ksCleanupAwayTracking();
   markSubscribed();
   trackEvent('subscribe_verified', { script_id: itemId });
+
+  const item = allItems.find(i => i.id === itemId);
+
+  // If this card skips the checkpoint, subscribe alone is enough — unlock immediately.
+  if(item && item.skip_checkpoint){
+    markScriptUnlocked(itemId);
+    trackEvent('unlock_completed', { script_id: itemId, method: 'subscribe_only' });
+    showToast('Unlocked!');
+    openModal(item);
+    return;
+  }
+
+  // Otherwise reveal the Linkvertise step as normal.
   const step1 = document.getElementById('ksStep1');
   const step2 = document.getElementById('ksStep2');
   if(step1) step1.style.display = 'none';
@@ -836,24 +915,21 @@ function ksGoUnlock(itemId, method){
   const item = allItems.find(i => i.id === itemId);
   if(!item) return;
   const link = item.linkvertise_link;
-  trackEvent('unlock_method_clicked', { script_id: itemId, method: method, has_link: !!link });
-  if(!link){
-    showToast('No ' + method + ' link set for this script yet.');
-    return;
-  }
+  trackEvent('unlock_method_clicked', { script_id: itemId, method, has_link: !!link });
+  if(!link){ showToast('No ' + method + ' link set for this script yet.'); return; }
   window.location.href = link;
 }
 
 function openModal(item){
   const overlay = document.getElementById('modalOverlay');
-  const modal = document.getElementById('modalContent');
+  const modal   = document.getElementById('modalContent');
   let bodyHtml = '';
   if(item.content_type === 'download' && item.download_url){
-    bodyHtml = `<a class="download-btn" href="${escapeHtml(item.download_url)}" target="_blank" rel="noopener">&#x2B07; Download Plugin</a>`;
+    bodyHtml = `<a class="download-btn" href="${escapeHtml(item.download_url)}" target="_blank" rel="noopener">⬇ Download Plugin</a>`;
   } else {
     bodyHtml = `
       <div class="code-box" id="codeBox-${item.id}">${escapeHtml(item.code)}</div>
-      <button class="copy-btn" onclick="copyCode('${item.id}')">&#x1F4CB; Copy Code</button>`;
+      <button class="copy-btn" onclick="copyCode('${item.id}')">📋 Copy Code</button>`;
   }
   modal.innerHTML = `
     <button class="modal-close" onclick="closeModal()">&#x2715;</button>
@@ -868,7 +944,7 @@ function openModal(item){
 function copyCode(id){
   const item = allItems.find(i => i.id === id);
   if(!item) return;
-  navigator.clipboard.writeText(item.code).then(()=> showToast('Copied to clipboard!'));
+  navigator.clipboard.writeText(item.code).then(() => showToast('Copied to clipboard!'));
 }
 
 function closeModal(){
@@ -876,33 +952,19 @@ function closeModal(){
   ksCleanupAwayTracking();
 }
 
-document.getElementById('modalOverlay').addEventListener('click', (e) => {
-  if(e.target.id === 'modalOverlay') closeModal();
-});
-document.addEventListener('keydown', (e) => {
-  if(e.key === 'Escape') closeModal();
-});
+document.getElementById('modalOverlay').addEventListener('click', e => { if(e.target.id === 'modalOverlay') closeModal(); });
+document.addEventListener('keydown', e => { if(e.key === 'Escape') closeModal(); });
 document.getElementById('searchInput').addEventListener('input', render);
 document.getElementById('categoryFilter').addEventListener('change', render);
 document.getElementById('sortSelect').addEventListener('change', render);
 document.getElementById('favOnly').addEventListener('change', render);
 
-// ---------------------------------------------------------------------------
-// Analytics — GA4 event tracking for the full unlock funnel.
-// trackEvent() is a thin wrapper so it's a no-op if GA hasn't loaded yet,
-// and so every funnel step is logged from exactly one place.
-// ---------------------------------------------------------------------------
 function trackEvent(name, params){
   params = params || {};
-  if(typeof gtag === 'function'){
-    gtag('event', name, params);
-  }
-  if(window.location.hostname === 'localhost' || window.location.search.includes('debug=1')){
-    console.log('[track]', name, params);
-  }
+  if(typeof gtag === 'function'){ gtag('event', name, params); }
+  if(window.location.hostname === 'localhost' || window.location.search.includes('debug=1')){ console.log('[track]', name, params); }
 }
 
-// Page landing event — fires once GA is ready, separate from script init.
 window.addEventListener('load', () => {
   trackEvent('page_loaded', { path: window.location.pathname, has_query: !!window.location.search });
 });
