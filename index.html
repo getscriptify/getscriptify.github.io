@@ -511,8 +511,12 @@
 const SHEET_CSV_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vSs3X9rA31AbPZyBdexF7T-rZWpUevAJWyX3RpMEGLUkZ6rkZBDA61kRHuFZYa-RTBiNzPohSElJNd9/pub?output=csv";
 const YOUTUBE_SUBSCRIBE_URL = "https://www.youtube.com/@Scriptify-HQ?sub_confirmation=1";
 
+const DISCORD_URL = 'https://discord.gg/g93eYSGMW';
+
 function hasSubscribed(){ return localStorage.getItem('ks_subscribed') === 'true'; }
 function markSubscribed(){ localStorage.setItem('ks_subscribed', 'true'); }
+function hasJoinedDiscord(){ return localStorage.getItem('ks_discord') === 'true'; }
+function markJoinedDiscord(){ localStorage.setItem('ks_discord', 'true'); }
 function isScriptUnlocked(id){ return localStorage.getItem('ks_unlocked_' + id) === 'true'; }
 function markScriptUnlocked(id){ localStorage.setItem('ks_unlocked_' + id, 'true'); }
 
@@ -805,17 +809,17 @@ function handleViewClick(id){
 }
 
 function openKeySystem(item){
-  trackEvent('key_system_opened', { script_id: item.id, already_subscribed: hasSubscribed(), skip_checkpoint: item.skip_checkpoint });
-  const overlay = document.getElementById('modalOverlay');
-  const modal   = document.getElementById('modalContent');
-  const subscribed = hasSubscribed();
+  trackEvent('key_system_opened', { script_id: item.id });
+  const overlay  = document.getElementById('modalOverlay');
+  const modal    = document.getElementById('modalContent');
+  const subDone  = hasSubscribed();
+  const dcDone   = hasJoinedDiscord();
 
-  // Cards with skip_checkpoint:true only need Discord + Subscribe — no Linkvertise step.
-  // Once subscribe is verified for those cards, the script unlocks immediately.
-  const checkpointHtml = item.skip_checkpoint ? '' : `
-    <div id="ksStep2" style="${subscribed ? '' : 'opacity:0.35;pointer-events:none;'}">
+  // Step 3 (Linkvertise) only shown for cards that need it
+  const linkvertiseHtml = item.skip_checkpoint ? '' : `
+    <div id="ksStepLv" style="${(subDone && dcDone) ? '' : 'opacity:0.35;pointer-events:none;'}">
       <div class="ks-step-box" style="margin-bottom:0;">
-        <div class="ks-step-label">${subscribed ? 'Step 2' : 'Step 3'} — Unlock the script</div>
+        <div class="ks-step-label">Step 3 — Unlock the script</div>
         <button class="ks-action-btn" onclick="ksGoUnlock('${item.id}','linkvertise')">
           <div class="ks-btn-icon">🔗</div>
           <div>
@@ -833,13 +837,19 @@ function openKeySystem(item){
     <h2>${escapeHtml(item.title)}</h2>
     <div class="desc" style="margin-bottom:20px;">Complete the steps below to unlock this script.</div>
 
-    <div id="ksStep1" class="ks-step-box" style="${subscribed ? 'display:none;' : ''}">
-      <div class="ks-step-label">Step 1 — Subscribe</div>
-      <p style="font-size:13px;color:var(--text-dim);margin:0 0 14px;line-height:1.6;">Subscribe to our YouTube channel once — unlocks all scripts going forward.</p>
+    <div id="ksStepYt" class="ks-step-box" style="${subDone ? 'display:none;' : ''}">
+      <div class="ks-step-label">Step 1 — Subscribe on YouTube</div>
+      <p style="font-size:13px;color:var(--text-dim);margin:0 0 14px;line-height:1.6;">Subscribe to our channel once — applies to all scripts.</p>
       <button class="ks-gold-btn" id="ksSubBtn" onclick="ksDoSubscribe('${item.id}')">Subscribe on YouTube →</button>
     </div>
 
-    ${checkpointHtml}
+    <div id="ksStepDc" class="ks-step-box" style="${dcDone ? 'display:none;' : (!subDone ? 'opacity:0.35;pointer-events:none;' : '')}">
+      <div class="ks-step-label">Step 2 — Join Discord</div>
+      <p style="font-size:13px;color:var(--text-dim);margin:0 0 14px;line-height:1.6;">Join our Discord server once — applies to all scripts.</p>
+      <button class="ks-gold-btn" id="ksDcBtn" onclick="ksDoDiscord('${item.id}')">Join Discord →</button>
+    </div>
+
+    ${linkvertiseHtml}
   `;
   overlay.classList.add('show');
 }
@@ -847,6 +857,7 @@ function openKeySystem(item){
 const REQUIRED_AWAY_MS = 4000;
 let ksAwayStart = null, ksAwayHandler = null;
 
+// ── Step 1: YouTube ──────────────────────────────────────────
 function ksDoSubscribe(itemId){
   trackEvent('subscribe_button_clicked', { script_id: itemId });
   const btn = document.getElementById('ksSubBtn');
@@ -862,12 +873,13 @@ function ksDoSubscribe(itemId){
       if(ksAwayStart !== null){
         const awayFor = Date.now() - ksAwayStart;
         if(awayFor >= REQUIRED_AWAY_MS){
-          ksUnlockStep1(itemId); return;
+          ksVerifiedSubscribe(itemId);
         } else {
           ksAwayStart = null;
-          if(btn){ btn.disabled = false; btn.textContent = 'Subscribe on YouTube →'; }
+          btn.disabled = false;
+          btn.textContent = 'Subscribe on YouTube →';
           trackEvent('subscribe_verification_failed_too_fast', { script_id: itemId });
-          showToast("Looks like you haven't subscribed yet — please subscribe to continue.");
+          showToast("Looks like you haven't subscribed yet — please try again.");
         }
       }
     }
@@ -877,28 +889,73 @@ function ksDoSubscribe(itemId){
   window.addEventListener('focus', ksAwayHandler);
 }
 
-function ksUnlockStep1(itemId){
+function ksVerifiedSubscribe(itemId){
   ksCleanupAwayTracking();
   markSubscribed();
   trackEvent('subscribe_verified', { script_id: itemId });
 
+  // Hide YouTube step, reveal Discord step
+  const ytStep = document.getElementById('ksStepYt');
+  const dcStep = document.getElementById('ksStepDc');
+  if(ytStep) ytStep.style.display = 'none';
+  if(dcStep){ dcStep.style.opacity = '1'; dcStep.style.pointerEvents = 'auto'; }
+  showToast('Subscribed ✓ — now join the Discord');
+}
+
+// ── Step 2: Discord ──────────────────────────────────────────
+function ksDoDiscord(itemId){
+  trackEvent('discord_button_clicked', { script_id: itemId });
+  const btn = document.getElementById('ksDcBtn');
+  btn.disabled = true;
+  btn.textContent = 'Waiting for you to join…';
+  window.open(DISCORD_URL, '_blank');
+  ksCleanupAwayTracking();
+  ksAwayStart = null;
+
+  ksAwayHandler = function(){
+    if(document.hidden){ ksAwayStart = Date.now(); }
+    else {
+      if(ksAwayStart !== null){
+        const awayFor = Date.now() - ksAwayStart;
+        if(awayFor >= REQUIRED_AWAY_MS){
+          ksVerifiedDiscord(itemId);
+        } else {
+          ksAwayStart = null;
+          btn.disabled = false;
+          btn.textContent = 'Join Discord →';
+          trackEvent('discord_verification_failed_too_fast', { script_id: itemId });
+          showToast("Looks like you haven't joined yet — please try again.");
+        }
+      }
+    }
+  };
+  document.addEventListener('visibilitychange', ksAwayHandler);
+  window.addEventListener('blur', ksAwayHandler);
+  window.addEventListener('focus', ksAwayHandler);
+}
+
+function ksVerifiedDiscord(itemId){
+  ksCleanupAwayTracking();
+  markJoinedDiscord();
+  trackEvent('discord_verified', { script_id: itemId });
+
   const item = allItems.find(i => i.id === itemId);
 
-  // If this card skips the checkpoint, subscribe alone is enough — unlock immediately.
+  // skip_checkpoint cards: both steps done → unlock immediately
   if(item && item.skip_checkpoint){
     markScriptUnlocked(itemId);
-    trackEvent('unlock_completed', { script_id: itemId, method: 'subscribe_only' });
+    trackEvent('unlock_completed', { script_id: itemId, method: 'yt_dc_only' });
     showToast('Unlocked!');
     openModal(item);
     return;
   }
 
-  // Otherwise reveal the Linkvertise step as normal.
-  const step1 = document.getElementById('ksStep1');
-  const step2 = document.getElementById('ksStep2');
-  if(step1) step1.style.display = 'none';
-  if(step2){ step2.style.opacity = '1'; step2.style.pointerEvents = 'auto'; }
-  showToast('Thanks for subscribing!');
+  // Otherwise reveal Linkvertise step
+  const dcStep = document.getElementById('ksStepDc');
+  const lvStep = document.getElementById('ksStepLv');
+  if(dcStep) dcStep.style.display = 'none';
+  if(lvStep){ lvStep.style.opacity = '1'; lvStep.style.pointerEvents = 'auto'; }
+  showToast('Discord joined ✓ — one last step');
 }
 
 function ksCleanupAwayTracking(){
